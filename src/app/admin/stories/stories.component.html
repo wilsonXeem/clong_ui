@@ -1,0 +1,145 @@
+<div class="stories-container">
+  <div class="header">
+    <h1>Success Stories</h1>
+    <div class="header-actions">
+      <button class="btn-primary" (click)="showCreateForm = true" *ngIf="!showCreateForm">
+        <span class="icon">➕</span>
+        Add Story
+      </button>
+      <button class="btn-secondary" (click)="loadStories()">
+        <span class="icon">🔄</span>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters-section" *ngIf="!loading">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search stories..." 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearch()"
+        class="search-input"
+      >
+      <span class="search-icon">🔍</span>
+    </div>
+    
+    <div class="filter-controls">
+      <select [(ngModel)]="statusFilter" (change)="onStatusFilter()" class="filter-select">
+        <option value="all">All Status</option>
+        <option value="published">Published</option>
+        <option value="draft">Draft</option>
+      </select>
+      
+      <div class="results-count">
+        Showing {{ filteredStories.length }} of {{ stories.length }} stories
+      </div>
+    </div>
+  </div>
+
+  <!-- Create/Edit Story Form -->
+  <div class="form-overlay" *ngIf="showCreateForm" (click)="cancelEdit()">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="form-header">
+        <h2>{{ editingStory ? 'Edit Story' : 'Create New Story' }}</h2>
+        <button class="btn-close" (click)="cancelEdit()">✕</button>
+      </div>
+      
+      <form (ngSubmit)="editingStory ? updateStory() : createStory()">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" #titleInput [value]="newStory.title" (input)="newStory.title = titleInput.value" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Content</label>
+          <textarea #contentInput [value]="newStory.content" (input)="newStory.content = contentInput.value" rows="6" class="form-control" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Image</label>
+          <div *ngIf="editingStory && editingStory.imageUrl" class="current-image">
+            <small class="form-text">Current image: <a [href]="editingStory.imageUrl" target="_blank">View</a></small>
+          </div>
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" class="form-control">
+          <small class="form-text" *ngIf="selectedFile">Selected: {{ selectedFile.name }}</small>
+          <small class="form-text" *ngIf="!selectedFile && !editingStory">Choose an image file (optional)</small>
+          <small class="form-text" *ngIf="!selectedFile && editingStory">Choose a new image to replace current one (optional)</small>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [checked]="newStory.isPublic" (change)="newStory.isPublic = $any($event.target).checked">
+            <span class="checkmark">Published</span>
+          </label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="btn-primary">
+            {{ editingStory ? 'Update Story' : 'Create Story' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading stories...</p>
+  </div>
+
+  <div class="error" *ngIf="error && !loading">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button class="btn-primary" (click)="loadStories()">Try Again</button>
+  </div>
+
+  <div class="stories-grid" *ngIf="!loading && !error">
+    <div class="story-card" *ngFor="let story of filteredStories">
+      <div class="card-content">
+        <div class="card-header">
+          <h3>{{ story.title }}</h3>
+          <div class="status-badge" [class.published]="story.isPublished" [class.draft]="!story.isPublished">
+            {{ story.isPublished ? 'Published' : 'Draft' }}
+          </div>
+        </div>
+        
+        <div class="story-details">
+          <p class="story-excerpt">{{ getExcerpt(story.content) }}</p>
+          <div class="detail" *ngIf="story.imageUrl">
+            <span class="label">📷 Image:</span>
+            <span class="value">Attached</span>
+          </div>
+          <div class="detail">
+            <span class="label">📅 Created:</span>
+            <span class="value">{{ story.createdAt | date:'short' }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-actions">
+        <button class="btn-edit" (click)="editStory(story)" title="Edit Story">
+          <span class="icon">✏️</span>
+        </button>
+        <button class="btn-delete" (click)="deleteStory(story.id)" title="Delete Story">
+          <span class="icon">🗑️</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && !error && filteredStories.length === 0 && stories.length > 0">
+    <div class="empty-icon">🔍</div>
+    <h3>No Stories Found</h3>
+    <p>No stories match your current search and filter criteria.</p>
+    <button class="btn-secondary" (click)="searchTerm = ''; statusFilter = 'all'; onSearch()">
+      Clear Filters
+    </button>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && !error && stories.length === 0">
+    <div class="empty-icon">📖</div>
+    <h3>No Stories Found</h3>
+    <p>Get started by creating your first success story.</p>
+    <button class="btn-primary" (click)="showCreateForm = true">Create Story</button>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <div class="user-info">
+      <span>Welcome, {{ currentUser?.firstName }} {{ currentUser?.lastName }}</span>
+      <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="stats-grid" *ngIf="!loading">
+    <div class="stat-card">
+      <div class="stat-icon">📰</div>
+      <div class="stat-content">
+        <h3>{{ stats.articles }}</h3>
+        <p>Articles</p>
+      </div>
+      <a routerLink="/admin/articles" class="stat-link">Manage</a>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-content">
+        <h3>{{ stats.events }}</h3>
+        <p>Events</p>
+      </div>
+      <a routerLink="/admin/events" class="stat-link">Manage</a>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <h3>{{ stats.donations }}</h3>
+        <p>Donations</p>
+      </div>
+      <a routerLink="/admin/donations" class="stat-link">Manage</a>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">🤝</div>
+      <div class="stat-content">
+        <h3>{{ stats.volunteers }}</h3>
+        <p>Volunteers</p>
+      </div>
+      <a routerLink="/admin/volunteers" class="stat-link">Manage</a>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Loading dashboard...</p>
+  </div>
+
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="actions-grid">
+      <a routerLink="/admin/articles" class="action-btn">
+        <span class="action-icon">📝</span>
+        <span>Create Article</span>
+      </a>
+      <a routerLink="/admin/events" class="action-btn">
+        <span class="action-icon">🎉</span>
+        <span>Create Event</span>
+      </a>
+      <a routerLink="/admin/programs" class="action-btn">
+        <span class="action-icon">📋</span>
+        <span>Manage Programs</span>
+      </a>
+      <a routerLink="/admin/users" class="action-btn">
+        <span class="action-icon">👥</span>
+        <span>Manage Users</span>
+      </a>
+    </div>
+  </div>
+</div>

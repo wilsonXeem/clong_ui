@@ -1,0 +1,23 @@
+<nav class="admin-navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a routerLink="/admin">CloNG Admin</a>
+    </div>
+    
+    <div class="nav-menu">
+      <a routerLink="/admin/dashboard" class="nav-link">Dashboard</a>
+      <a routerLink="/admin/articles" class="nav-link">Articles</a>
+      <a routerLink="/admin/blogs" class="nav-link">Blogs</a>
+      <a routerLink="/admin/events" class="nav-link">Events</a>
+      <a routerLink="/admin/programs" class="nav-link">Programs</a>
+      <a routerLink="/admin/donations" class="nav-link">Donations</a>
+      <a routerLink="/admin/volunteers" class="nav-link">Volunteers</a>
+      <a routerLink="/admin/stories" class="nav-link">Stories</a>
+      
+      <div class="user-info">
+        <span>Admin</span>
+        <button class="btn-logout" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>

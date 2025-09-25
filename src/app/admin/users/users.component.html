@@ -1,0 +1,80 @@
+<div class="users-container">
+  <div class="header">
+    <h1>User Management</h1>
+    <div class="header-actions">
+      <input 
+        type="text" 
+        class="search-input" 
+        placeholder="Search users..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+      >
+      <select 
+        class="filter-select" 
+        [(ngModel)]="selectedRole" 
+        (change)="onRoleChange()"
+      >
+        <option value="">All Roles</option>
+        <option *ngFor="let role of getUniqueRoles()" [value]="role">
+          {{ role | titlecase }}
+        </option>
+      </select>
+      <button class="btn-secondary" (click)="refreshUsers()">Refresh</button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Loading users...</p>
+  </div>
+
+  <div class="error" *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <table class="users-table" *ngIf="!loading && !error">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of filteredUsers; trackBy: trackByUserId">
+        <td>{{ user.firstName }} {{ user.lastName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role | titlecase }}</td>
+        <td>
+          <span class="status" [class.published]="user.isActive" [class.draft]="!user.isActive">
+            {{ user.isActive ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn-edit" (click)="viewUser(user)" title="View">👁️</button>
+          <button class="btn-edit" (click)="editUser(user)" title="Edit">✏️</button>
+          <button 
+            class="btn-publish" 
+            *ngIf="!user.isActive"
+            (click)="toggleUserStatus(user)"
+            title="Activate"
+          >
+            ✅
+          </button>
+          <button 
+            class="btn-delete" 
+            (click)="confirmDelete(user)"
+            title="Delete"
+          >
+            🗑️
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="empty-state" *ngIf="!loading && !error && filteredUsers.length === 0">
+    <p>No users found.</p>
+  </div>
+</div>

@@ -1,0 +1,308 @@
+<div class="events-container">
+  <div class="header">
+    <h1>Events Management</h1>
+    <div class="header-actions">
+      <button class="btn-primary" (click)="openCreateForm()">
+        <span class="icon">➕</span>
+        Create Event
+      </button>
+      <button class="btn-secondary" (click)="loadEvents()">
+        <span class="icon">🔄</span>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters-section" *ngIf="!loading && !error">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search events..." 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearchChange()"
+        class="search-input"
+      >
+      <span class="search-icon">🔍</span>
+    </div>
+    
+    <div class="filter-controls">
+      <select [(ngModel)]="statusFilter" (change)="onStatusFilterChange()" class="filter-select">
+        <option value="all">All Events</option>
+        <option value="active">Active Only</option>
+        <option value="inactive">Inactive Only</option>
+      </select>
+      
+      <div class="results-count">
+        Showing {{ filteredEvents.length }} of {{ events.length }} events
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk Actions -->
+  <div class="bulk-actions" *ngIf="selectedEvents.size > 0">
+    <div class="selection-info">
+      {{ selectedEvents.size }} event(s) selected
+    </div>
+    <div class="bulk-buttons">
+      <button class="btn-secondary" (click)="bulkToggleStatus()">
+        <span class="icon">🔄</span>
+        Toggle Status
+      </button>
+      <button class="btn-danger" (click)="bulkDelete()">
+        <span class="icon">🗑️</span>
+        Delete Selected
+      </button>
+      <button class="btn-secondary" (click)="clearSelection()">
+        Clear Selection
+      </button>
+    </div>
+  </div>
+
+  <!-- Create/Edit Form -->
+  <div class="form-overlay" *ngIf="showCreateForm" (click)="closeForm()">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="form-header">
+        <h2>{{ editingEvent ? 'Edit Event' : 'Create New Event' }}</h2>
+        <button class="btn-close" (click)="closeForm()">✕</button>
+      </div>
+      
+      <form (ngSubmit)="onSubmit()" #eventFormRef="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="title">Event Title *</label>
+            <input 
+              type="text" 
+              id="title"
+              name="title"
+              [(ngModel)]="eventForm.title" 
+              class="form-control"
+              required
+              placeholder="Enter event title"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="location">Location *</label>
+            <input 
+              type="text" 
+              id="location"
+              name="location"
+              [(ngModel)]="eventForm.location" 
+              class="form-control"
+              required
+              placeholder="Event location"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description *</label>
+          <textarea 
+            id="description"
+            name="description"
+            [(ngModel)]="eventForm.description" 
+            class="form-control"
+            rows="4"
+            required
+            placeholder="Describe the event..."
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventDate">Event Date *</label>
+            <input 
+              type="datetime-local" 
+              id="eventDate"
+              name="eventDate"
+              [(ngModel)]="eventForm.eventDate" 
+              class="form-control"
+              required
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="maxAttendees">Max Attendees</label>
+            <input 
+              type="number" 
+              id="maxAttendees"
+              name="maxAttendees"
+              [(ngModel)]="eventForm.maxAttendees" 
+              class="form-control"
+              min="1"
+              placeholder="Maximum attendees"
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="image">Event Image</label>
+            <input 
+              type="file" 
+              id="image"
+              name="image"
+              (change)="onFileSelected($event)"
+              class="form-control"
+              accept="image/*"
+            >
+            <small class="form-text">Upload an image for the event</small>
+          </div>
+          
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                name="isActive"
+                [(ngModel)]="eventForm.isActive"
+              >
+              <span class="checkmark"></span>
+              Active Event
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="!eventFormRef.form.valid">
+            {{ editingEvent ? 'Update Event' : 'Create Event' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading events...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error" *ngIf="error && !loading">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button class="btn-primary" (click)="loadEvents()">Try Again</button>
+  </div>
+
+  <!-- Select All -->
+  <div class="select-all-section" *ngIf="!loading && !error && filteredEvents.length > 0">
+    <label class="checkbox-label">
+      <input 
+        type="checkbox" 
+        [checked]="isAllSelected" 
+        [indeterminate]="isIndeterminate"
+        (change)="toggleSelectAll()"
+      >
+      <span class="checkmark">Select All</span>
+    </label>
+  </div>
+
+  <!-- Events Grid -->
+  <div class="events-grid" *ngIf="!loading && !error">
+    <div class="event-card" *ngFor="let event of filteredEvents">
+      <div class="card-checkbox">
+        <input 
+          type="checkbox" 
+          [checked]="isSelected(event.id)"
+          (change)="toggleEventSelection(event.id)"
+        >
+      </div>
+      <div class="card-image">
+        <img 
+          [src]="event.imageUrl || '/assets/images/placeholder.jpg'" 
+          [alt]="event.title"
+          (error)="onImageError($event)"
+        >
+        <div class="status-badge" [class.active]="event.isActive" [class.inactive]="!event.isActive">
+          {{ event.isActive ? 'Active' : 'Inactive' }}
+        </div>
+      </div>
+      
+      <div class="card-content">
+        <h3>{{ event.title }}</h3>
+        <p class="description">{{ event.description }}</p>
+        
+        <div class="event-details">
+          <div class="detail">
+            <span class="label">📅 Date:</span>
+            <span class="value">{{ formatDate(event.eventDate) }}</span>
+          </div>
+          <div class="detail">
+            <span class="label">📍 Location:</span>
+            <span class="value">{{ event.location }}</span>
+          </div>
+          <div class="detail" *ngIf="event.maxAttendees">
+            <span class="label">👥 Max Attendees:</span>
+            <span class="value">{{ event.maxAttendees }}</span>
+          </div>
+        </div>
+
+        <div class="card-meta">
+          <span class="created-date">Created {{ formatDate(event.createdAt) }}</span>
+        </div>
+      </div>
+      
+      <div class="card-actions">
+        <button class="btn-view" (click)="viewEventDetails(event)" title="View Details">
+          <span class="icon">👁️</span>
+        </button>
+        <button class="btn-view" (click)="viewRegistrations(event)" title="View Registrations">
+          <span class="icon">👥</span>
+        </button>
+        <button class="btn-edit" (click)="openEditForm(event)" title="Edit Event">
+          <span class="icon">✏️</span>
+        </button>
+        <button class="btn-delete" (click)="deleteEvent(event)" title="Delete Event">
+          <span class="icon">🗑️</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && !error && filteredEvents.length === 0 && events.length > 0">
+    <div class="empty-icon">🔍</div>
+    <h3>No Events Found</h3>
+    <p>No events match your current search and filter criteria.</p>
+    <button class="btn-secondary" (click)="searchTerm = ''; statusFilter = 'all'; applyFilters()">
+      Clear Filters
+    </button>
+  </div>
+
+  <!-- No Events State -->
+  <div class="empty-state" *ngIf="!loading && !error && events.length === 0">
+    <div class="empty-icon">📋</div>
+    <h3>No Events Found</h3>
+    <p>Get started by creating your first event.</p>
+    <button class="btn-primary" (click)="openCreateForm()">Create Event</button>
+  </div>
+
+  <!-- Registrations Modal -->
+  <div class="form-overlay" *ngIf="showRegistrations" (click)="closeRegistrations()">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="form-header">
+        <h2>Registrations for {{ selectedEventTitle }}</h2>
+        <button class="btn-close" (click)="closeRegistrations()">✕</button>
+      </div>
+      
+      <div class="registrations-content">
+        <div *ngIf="selectedEventRegistrations.length === 0" class="no-registrations">
+          <p>No registrations yet for this event.</p>
+        </div>
+        
+        <div *ngIf="selectedEventRegistrations.length > 0" class="registrations-list">
+          <div class="registration-item" *ngFor="let registration of selectedEventRegistrations">
+            <div class="registration-info">
+              <h4>{{ registration.attendeeName }}</h4>
+              <p>{{ registration.attendeeEmail }}</p>
+              <p *ngIf="registration.attendeePhone">{{ registration.attendeePhone }}</p>
+              <small>Registered: {{ registration.registrationDate | date:'short' }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

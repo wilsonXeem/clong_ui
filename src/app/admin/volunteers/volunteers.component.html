@@ -1,0 +1,81 @@
+<div class="volunteers-container">
+  <div class="header">
+    <h1>Volunteer Applications</h1>
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="loadVolunteers()">
+        <span class="icon">🔄</span>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters-section" *ngIf="!loading">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search by skills or interests..." 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearch()"
+        class="search-input"
+      >
+      <span class="search-icon">🔍</span>
+    </div>
+    
+    <div class="filter-controls">
+      <select [(ngModel)]="selectedStatus" (change)="onStatusFilter(selectedStatus)" class="filter-select">
+        <option value="all">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="active">Active</option>
+      </select>
+      
+      <div class="results-count">
+        Showing {{ filteredVolunteers.length }} of {{ volunteers.length }} volunteers
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading volunteers...</div>
+
+  <div class="volunteers-grid" *ngIf="!loading">
+    <div class="volunteer-card" *ngFor="let volunteer of filteredVolunteers">
+      <div class="card-header">
+        <span class="status-badge" [ngClass]="getStatusClass(volunteer.status)">{{ volunteer.status }}</span>
+        <span class="date">{{ volunteer.createdAt | date:'short' }}</span>
+      </div>
+      
+      <div class="card-content">
+        <div class="field" *ngIf="volunteer.skills">
+          <strong>Skills:</strong> {{ volunteer.skills }}
+        </div>
+        <div class="field" *ngIf="volunteer.interests">
+          <strong>Interests:</strong> {{ volunteer.interests }}
+        </div>
+        <div class="field" *ngIf="volunteer.availability">
+          <strong>Availability:</strong> {{ volunteer.availability }}
+        </div>
+        <div class="field" *ngIf="volunteer.experience">
+          <strong>Experience:</strong> {{ volunteer.experience }}
+        </div>
+        <div class="field" *ngIf="volunteer.motivation">
+          <strong>Motivation:</strong> {{ volunteer.motivation }}
+        </div>
+      </div>
+
+      <div class="card-actions" *ngIf="volunteer.status === 'pending'">
+        <button class="btn-approve" (click)="updateStatus(volunteer.id, 'approved')">Approve</button>
+        <button class="btn-reject" (click)="updateStatus(volunteer.id, 'rejected')">Reject</button>
+      </div>
+      
+      <div class="card-actions" *ngIf="volunteer.status === 'approved'">
+        <button class="btn-activate" (click)="updateStatus(volunteer.id, 'active')">Activate</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-results" *ngIf="!loading && filteredVolunteers.length === 0">
+    No volunteers found.
+  </div>
+</div>

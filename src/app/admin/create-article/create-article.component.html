@@ -1,0 +1,81 @@
+<div class="create-article-container">
+  <div class="header">
+    <h1>
+      {{ isEdit ? "Edit" : "Create" }}
+      {{ contentType === "blog" ? "Blog Post" : "Article" }}
+    </h1>
+    <button class="btn-back" (click)="goBack()">← Back</button>
+  </div>
+
+  <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title *</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        placeholder="Enter title"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="slug">Slug *</label>
+      <input
+        type="text"
+        id="slug"
+        formControlName="slug"
+        placeholder="url-friendly-slug"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="excerpt">Excerpt</label>
+      <textarea
+        id="excerpt"
+        formControlName="excerpt"
+        rows="3"
+        placeholder="Brief description"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="content">Content *</label>
+      <textarea
+        id="content"
+        formControlName="content"
+        rows="10"
+        placeholder="Write your content here..."
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="featuredImage">Featured Image</label>
+      <input
+        type="file"
+        id="featuredImage"
+        (change)="onFileSelect($event)"
+        accept="image/*"
+      />
+    </div>
+
+    <div class="form-group checkbox-group">
+      <label>
+        <input type="checkbox" formControlName="isPublished" />
+        Publish immediately
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="goBack()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="!articleForm.valid || loading"
+      >
+        {{ loading ? "Saving..." : isEdit ? "Update" : "Create" }}
+      </button>
+    </div>
+  </form>
+</div>

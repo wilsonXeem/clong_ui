@@ -1,0 +1,232 @@
+<div class="articles-container">
+  <div class="header">
+    <h1>Articles Management</h1>
+    <div class="header-actions">
+      <button class="btn-primary" (click)="openCreateForm()">
+        <span class="icon">➕</span>
+        Create Article
+      </button>
+      <button class="btn-secondary" (click)="loadArticles()">
+        <span class="icon">🔄</span>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters-section" *ngIf="!loading && !error">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search articles..." 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearchChange()"
+        class="search-input"
+      >
+      <span class="search-icon">🔍</span>
+    </div>
+    
+    <div class="filter-controls">
+      <select [(ngModel)]="statusFilter" (change)="onStatusFilterChange()" class="filter-select">
+        <option value="all">All Articles</option>
+        <option value="published">Published Only</option>
+        <option value="draft">Draft Only</option>
+      </select>
+      
+      <div class="results-count">
+        Showing {{ filteredArticles.length }} of {{ articles.length }} articles
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk Actions -->
+  <div class="bulk-actions" *ngIf="selectedArticles.size > 0">
+    <div class="selection-info">
+      {{ selectedArticles.size }} article(s) selected
+    </div>
+    <div class="bulk-buttons">
+      <button class="btn-secondary" (click)="bulkToggleStatus()">
+        <span class="icon">🔄</span>
+        Toggle Status
+      </button>
+      <button class="btn-danger" (click)="bulkDelete()">
+        <span class="icon">🗑️</span>
+        Delete Selected
+      </button>
+      <button class="btn-secondary" (click)="clearSelection()">
+        Clear Selection
+      </button>
+    </div>
+  </div>
+
+  <!-- Create/Edit Form -->
+  <div class="form-overlay" *ngIf="showCreateForm" (click)="closeForm()">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="form-header">
+        <h2>{{ editingArticle ? 'Edit Article' : 'Create New Article' }}</h2>
+        <button class="btn-close" (click)="closeForm()">✕</button>
+      </div>
+      
+      <form (ngSubmit)="onSubmit()" #articleFormRef="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="title">Article Title *</label>
+            <input 
+              type="text" 
+              id="title"
+              name="title"
+              [(ngModel)]="articleForm.title" 
+              class="form-control"
+              required
+              placeholder="Enter article title"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="image">Featured Image</label>
+            <input 
+              type="file" 
+              id="image"
+              name="image"
+              (change)="onFileSelected($event)"
+              class="form-control"
+              accept="image/*"
+            >
+            <small class="form-text">Upload a featured image for the article</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="content">Content *</label>
+          <textarea 
+            id="content"
+            name="content"
+            [(ngModel)]="articleForm.content" 
+            class="form-control"
+            rows="6"
+            required
+            placeholder="Write your article content..."
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="excerpt">Excerpt</label>
+            <textarea 
+              id="excerpt"
+              name="excerpt"
+              [(ngModel)]="articleForm.excerpt" 
+              class="form-control"
+              rows="3"
+              placeholder="Brief description of the article..."
+            ></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                name="isPublished"
+                [(ngModel)]="articleForm.isPublished"
+              >
+              <span class="checkmark"></span>
+              Published Article
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="!articleFormRef.form.valid">
+            {{ editingArticle ? 'Update Article' : 'Create Article' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading articles...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error" *ngIf="error && !loading">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button class="btn-primary" (click)="loadArticles()">Try Again</button>
+  </div>
+
+  <!-- Select All -->
+  <div class="select-all-section" *ngIf="!loading && !error && filteredArticles.length > 0">
+    <label class="checkbox-label">
+      <input 
+        type="checkbox" 
+        [checked]="isAllSelected" 
+        [indeterminate]="isIndeterminate"
+        (change)="toggleSelectAll()"
+      >
+      <span class="checkmark">Select All</span>
+    </label>
+  </div>
+
+  <!-- Articles Grid -->
+  <div class="articles-grid" *ngIf="!loading && !error">
+    <div class="article-card" *ngFor="let article of filteredArticles">
+      <div class="card-checkbox">
+        <input 
+          type="checkbox" 
+          [checked]="isSelected(article.id)"
+          (change)="toggleArticleSelection(article.id)"
+        >
+      </div>
+      <div class="card-image">
+        <img 
+          [src]="article.featuredImage || '/assets/images/placeholder.jpg'" 
+          [alt]="article.title"
+          (error)="onImageError($event)"
+        >
+        <div class="status-badge" [class.active]="article.isPublished" [class.inactive]="!article.isPublished">
+          {{ article.isPublished ? 'Published' : 'Draft' }}
+        </div>
+      </div>
+      
+      <div class="card-content">
+        <h3>{{ article.title }}</h3>
+        <p class="description">{{ article.excerpt || article.content.substring(0, 150) + '...' }}</p>
+        
+        <div class="card-meta">
+          <span class="created-date">Created {{ formatDate(article.createdAt) }}</span>
+        </div>
+      </div>
+      
+      <div class="card-actions">
+        <button class="btn-edit" (click)="openEditForm(article)" title="Edit Article">
+          <span class="icon">✏️</span>
+        </button>
+        <button class="btn-delete" (click)="deleteArticle(article)" title="Delete Article">
+          <span class="icon">🗑️</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && !error && filteredArticles.length === 0 && articles.length > 0">
+    <div class="empty-icon">🔍</div>
+    <h3>No Articles Found</h3>
+    <p>No articles match your current search and filter criteria.</p>
+    <button class="btn-secondary" (click)="searchTerm = ''; statusFilter = 'all'; applyFilters()">
+      Clear Filters
+    </button>
+  </div>
+
+  <!-- No Articles State -->
+  <div class="empty-state" *ngIf="!loading && !error && articles.length === 0">
+    <div class="empty-icon">📋</div>
+    <h3>No Articles Found</h3>
+    <p>Get started by creating your first article.</p>
+    <button class="btn-primary" (click)="openCreateForm()">Create Article</button>
+  </div>
+</div>

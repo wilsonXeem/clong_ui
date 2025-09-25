@@ -1,0 +1,58 @@
+<div class="event-detail-container">
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading event details...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <h2>Error</h2>
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="event && !loading">
+    <div class="event-header">
+      <h1>{{ event.title }}</h1>
+      <div class="status-badge" [class.active]="event.isActive">
+        {{ event.isActive ? 'Active' : 'Inactive' }}
+      </div>
+    </div>
+
+    <div class="event-info">
+      <p><strong>Description:</strong> {{ event.description }}</p>
+      <p><strong>Date:</strong> {{ event.eventDate | date:'fullDate' }}</p>
+      <p><strong>Time:</strong> {{ event.eventDate | date:'shortTime' }}</p>
+      <p><strong>Location:</strong> {{ event.location }}</p>
+      <p *ngIf="event.maxAttendees"><strong>Max Attendees:</strong> {{ event.maxAttendees }}</p>
+      <p><strong>Current Registrations:</strong> {{ registrations.length }}</p>
+    </div>
+
+    <div class="registrations-section">
+      <h2>Registered Attendees ({{ registrations.length }})</h2>
+      
+      <div *ngIf="registrations.length === 0" class="no-registrations">
+        <p>No registrations yet for this event.</p>
+      </div>
+      
+      <div *ngIf="registrations.length > 0" class="registrations-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Registered</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let registration of registrations">
+              <td>{{ registration.attendeeName }}</td>
+              <td>{{ registration.attendeeEmail }}</td>
+              <td>{{ registration.attendeePhone || '-' }}</td>
+              <td>{{ registration.registrationDate | date:'short' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

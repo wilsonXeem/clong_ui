@@ -1,0 +1,37 @@
+<div class="admin-page">
+  <div class="page-header">
+    <h1>Event Registrations</h1>
+  </div>
+
+  <div class="filters">
+    <select [(ngModel)]="selectedEvent" (change)="filterByEvent()">
+      <option value="">All Events</option>
+      <option *ngFor="let event of events" [value]="event.id">{{ event.title }}</option>
+    </select>
+  </div>
+
+  <div class="table-container" *ngIf="!loading">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Event</th>
+          <th>Registration Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let registration of registrations">
+          <td>{{ registration.name }}</td>
+          <td>{{ registration.email }}</td>
+          <td>{{ registration.eventTitle }}</td>
+          <td>{{ registration.createdAt | date }}</td>
+          <td>{{ registration.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading registrations...</div>
+</div>

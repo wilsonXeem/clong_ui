@@ -1,0 +1,232 @@
+<div class="blogs-container">
+  <div class="header">
+    <h1>Blogs Management</h1>
+    <div class="header-actions">
+      <button class="btn-primary" (click)="openCreateForm()">
+        <span class="icon">➕</span>
+        Create Blog
+      </button>
+      <button class="btn-secondary" (click)="loadBlogs()">
+        <span class="icon">🔄</span>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters-section" *ngIf="!loading && !error">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search blogs..." 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearchChange()"
+        class="search-input"
+      >
+      <span class="search-icon">🔍</span>
+    </div>
+    
+    <div class="filter-controls">
+      <select [(ngModel)]="statusFilter" (change)="onStatusFilterChange()" class="filter-select">
+        <option value="all">All Blogs</option>
+        <option value="published">Published Only</option>
+        <option value="draft">Draft Only</option>
+      </select>
+      
+      <div class="results-count">
+        Showing {{ filteredBlogs.length }} of {{ blogs.length }} blogs
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk Actions -->
+  <div class="bulk-actions" *ngIf="selectedBlogs.size > 0">
+    <div class="selection-info">
+      {{ selectedBlogs.size }} blog(s) selected
+    </div>
+    <div class="bulk-buttons">
+      <button class="btn-secondary" (click)="bulkToggleStatus()">
+        <span class="icon">🔄</span>
+        Toggle Status
+      </button>
+      <button class="btn-danger" (click)="bulkDelete()">
+        <span class="icon">🗑️</span>
+        Delete Selected
+      </button>
+      <button class="btn-secondary" (click)="clearSelection()">
+        Clear Selection
+      </button>
+    </div>
+  </div>
+
+  <!-- Create/Edit Form -->
+  <div class="form-overlay" *ngIf="showCreateForm" (click)="closeForm()">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="form-header">
+        <h2>{{ editingBlog ? 'Edit Blog' : 'Create New Blog' }}</h2>
+        <button class="btn-close" (click)="closeForm()">✕</button>
+      </div>
+      
+      <form (ngSubmit)="onSubmit()" #blogFormRef="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="title">Blog Title *</label>
+            <input 
+              type="text" 
+              id="title"
+              name="title"
+              [(ngModel)]="blogForm.title" 
+              class="form-control"
+              required
+              placeholder="Enter blog title"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="image">Featured Image</label>
+            <input 
+              type="file" 
+              id="image"
+              name="image"
+              (change)="onFileSelected($event)"
+              class="form-control"
+              accept="image/*"
+            >
+            <small class="form-text">Upload a featured image for the blog</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="content">Content *</label>
+          <textarea 
+            id="content"
+            name="content"
+            [(ngModel)]="blogForm.content" 
+            class="form-control content-textarea"
+            rows="10"
+            placeholder="Write your blog content..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="excerpt">Excerpt</label>
+            <textarea 
+              id="excerpt"
+              name="excerpt"
+              [(ngModel)]="blogForm.excerpt" 
+              class="form-control"
+              rows="3"
+              placeholder="Brief description of the blog..."
+            ></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                name="isPublished"
+                [(ngModel)]="blogForm.isPublished"
+              >
+              <span class="checkmark"></span>
+              Published Blog
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="!blogFormRef.form.valid">
+            {{ editingBlog ? 'Update Blog' : 'Create Blog' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading blogs...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error" *ngIf="error && !loading">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button class="btn-primary" (click)="loadBlogs()">Try Again</button>
+  </div>
+
+  <!-- Select All -->
+  <div class="select-all-section" *ngIf="!loading && !error && filteredBlogs.length > 0">
+    <label class="checkbox-label">
+      <input 
+        type="checkbox" 
+        [checked]="isAllSelected" 
+        [indeterminate]="isIndeterminate"
+        (change)="toggleSelectAll()"
+      >
+      <span class="checkmark">Select All</span>
+    </label>
+  </div>
+
+  <!-- Blogs Grid -->
+  <div class="blogs-grid" *ngIf="!loading && !error">
+    <div class="blog-card" *ngFor="let blog of filteredBlogs">
+      <div class="card-checkbox">
+        <input 
+          type="checkbox" 
+          [checked]="isSelected(blog.id)"
+          (change)="toggleBlogSelection(blog.id)"
+        >
+      </div>
+      <div class="card-image">
+        <img 
+          [src]="blog.featuredImage || '/assets/images/placeholder.jpg'" 
+          [alt]="blog.title"
+          (error)="onImageError($event)"
+        >
+        <div class="status-badge" [class.active]="blog.isPublished" [class.inactive]="!blog.isPublished">
+          {{ blog.isPublished ? 'Published' : 'Draft' }}
+        </div>
+      </div>
+      
+      <div class="card-content">
+        <h3>{{ blog.title }}</h3>
+        <p class="description">{{ blog.excerpt || blog.content.substring(0, 150) + '...' }}</p>
+        
+        <div class="card-meta">
+          <span class="created-date">Created {{ formatDate(blog.createdAt) }}</span>
+        </div>
+      </div>
+      
+      <div class="card-actions">
+        <button class="btn-edit" (click)="openEditForm(blog)" title="Edit Blog">
+          <span class="icon">✏️</span>
+        </button>
+        <button class="btn-delete" (click)="deleteBlog(blog)" title="Delete Blog">
+          <span class="icon">🗑️</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && !error && filteredBlogs.length === 0 && blogs.length > 0">
+    <div class="empty-icon">🔍</div>
+    <h3>No Blogs Found</h3>
+    <p>No blogs match your current search and filter criteria.</p>
+    <button class="btn-secondary" (click)="searchTerm = ''; statusFilter = 'all'; applyFilters()">
+      Clear Filters
+    </button>
+  </div>
+
+  <!-- No Blogs State -->
+  <div class="empty-state" *ngIf="!loading && !error && blogs.length === 0">
+    <div class="empty-icon">📝</div>
+    <h3>No Blogs Found</h3>
+    <p>Get started by creating your first blog.</p>
+    <button class="btn-primary" (click)="openCreateForm()">Create Blog</button>
+  </div>
+</div>

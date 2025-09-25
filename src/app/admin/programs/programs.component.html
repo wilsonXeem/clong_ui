@@ -1,0 +1,284 @@
+<div class="programs-container">
+  <div class="header">
+    <h1>Programs Management</h1>
+    <div class="header-actions">
+      <button class="btn-primary" (click)="openCreateForm()">
+        <span class="icon">➕</span>
+        Create Program
+      </button>
+      <button class="btn-secondary" (click)="loadPrograms()">
+        <span class="icon">🔄</span>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters-section" *ngIf="!loading && !error">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search programs..." 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearchChange()"
+        class="search-input"
+      >
+      <span class="search-icon">🔍</span>
+    </div>
+    
+    <div class="filter-controls">
+      <select [(ngModel)]="statusFilter" (change)="onStatusFilterChange()" class="filter-select">
+        <option value="all">All Programs</option>
+        <option value="active">Active Only</option>
+        <option value="inactive">Inactive Only</option>
+      </select>
+      
+      <div class="results-count">
+        Showing {{ filteredPrograms.length }} of {{ programs.length }} programs
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk Actions -->
+  <div class="bulk-actions" *ngIf="selectedPrograms.size > 0">
+    <div class="selection-info">
+      {{ selectedPrograms.size }} program(s) selected
+    </div>
+    <div class="bulk-buttons">
+      <button class="btn-secondary" (click)="bulkToggleStatus()">
+        <span class="icon">🔄</span>
+        Toggle Status
+      </button>
+      <button class="btn-danger" (click)="bulkDelete()">
+        <span class="icon">🗑️</span>
+        Delete Selected
+      </button>
+      <button class="btn-secondary" (click)="clearSelection()">
+        Clear Selection
+      </button>
+    </div>
+  </div>
+
+  <!-- Create/Edit Form -->
+  <div class="form-overlay" *ngIf="showCreateForm" (click)="closeForm()">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="form-header">
+        <h2>{{ editingProgram ? 'Edit Program' : 'Create New Program' }}</h2>
+        <button class="btn-close" (click)="closeForm()">✕</button>
+      </div>
+      
+      <form (ngSubmit)="onSubmit()" #programFormRef="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="title">Program Title *</label>
+            <input 
+              type="text" 
+              id="title"
+              name="title"
+              [(ngModel)]="programForm.title" 
+              class="form-control"
+              required
+              placeholder="Enter program title"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="image">Program Image</label>
+            <input 
+              type="file" 
+              id="image"
+              name="image"
+              (change)="onFileSelected($event)"
+              class="form-control"
+              accept="image/*"
+            >
+            <small class="form-text">Upload an image for the program</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description *</label>
+          <textarea 
+            id="description"
+            name="description"
+            [(ngModel)]="programForm.description" 
+            class="form-control"
+            rows="4"
+            required
+            placeholder="Describe the program..."
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="targetAmount">Target Amount (₦)</label>
+            <input 
+              type="number" 
+              id="targetAmount"
+              name="targetAmount"
+              [(ngModel)]="programForm.targetAmount" 
+              class="form-control"
+              min="0"
+              step="1000"
+              placeholder="0"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                name="isActive"
+                [(ngModel)]="programForm.isActive"
+              >
+              <span class="checkmark"></span>
+              Active Program
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input 
+              type="date" 
+              id="startDate"
+              name="startDate"
+              [(ngModel)]="programForm.startDate" 
+              class="form-control"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input 
+              type="date" 
+              id="endDate"
+              name="endDate"
+              [(ngModel)]="programForm.endDate" 
+              class="form-control"
+            >
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="!programFormRef.form.valid">
+            {{ editingProgram ? 'Update Program' : 'Create Program' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading programs...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error" *ngIf="error && !loading">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button class="btn-primary" (click)="loadPrograms()">Try Again</button>
+  </div>
+
+  <!-- Select All -->
+  <div class="select-all-section" *ngIf="!loading && !error && filteredPrograms.length > 0">
+    <label class="checkbox-label">
+      <input 
+        type="checkbox" 
+        [checked]="isAllSelected" 
+        [indeterminate]="isIndeterminate"
+        (change)="toggleSelectAll()"
+      >
+      <span class="checkmark">Select All</span>
+    </label>
+  </div>
+
+  <!-- Programs Grid -->
+  <div class="programs-grid" *ngIf="!loading && !error">
+    <div class="program-card" *ngFor="let program of filteredPrograms">
+      <div class="card-checkbox">
+        <input 
+          type="checkbox" 
+          [checked]="isSelected(program.id)"
+          (change)="toggleProgramSelection(program.id)"
+        >
+      </div>
+      <div class="card-image">
+        <img 
+          [src]="program.imageUrl || '/assets/images/placeholder.jpg'" 
+          [alt]="program.title"
+          (error)="onImageError($event)"
+        >
+        <div class="status-badge" [class.active]="program.isActive" [class.inactive]="!program.isActive">
+          {{ program.isActive ? 'Active' : 'Inactive' }}
+        </div>
+      </div>
+      
+      <div class="card-content">
+        <h3>{{ program.title }}</h3>
+        <p class="description">{{ program.description }}</p>
+        
+        <div class="program-stats" *ngIf="program.targetAmount">
+          <div class="stat">
+            <span class="label">Target:</span>
+            <span class="value">{{ formatAmount(program.targetAmount) }}</span>
+          </div>
+          <div class="stat">
+            <span class="label">Raised:</span>
+            <span class="value">{{ formatAmount(program.currentAmount) }}</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="getProgressPercentage(program)"></div>
+          </div>
+          <div class="progress-text">{{ getProgressPercentage(program) | number:'1.0-1' }}% Complete</div>
+        </div>
+
+        <div class="program-dates" *ngIf="program.startDate || program.endDate">
+          <div class="date" *ngIf="program.startDate">
+            <span class="label">Start:</span>
+            <span class="value">{{ formatDate(program.startDate) }}</span>
+          </div>
+          <div class="date" *ngIf="program.endDate">
+            <span class="label">End:</span>
+            <span class="value">{{ formatDate(program.endDate) }}</span>
+          </div>
+        </div>
+
+        <div class="card-meta">
+          <span class="created-date">Created {{ formatDate(program.createdAt) }}</span>
+        </div>
+      </div>
+      
+      <div class="card-actions">
+        <button class="btn-edit" (click)="openEditForm(program)" title="Edit Program">
+          <span class="icon">✏️</span>
+        </button>
+        <button class="btn-delete" (click)="deleteProgram(program)" title="Delete Program">
+          <span class="icon">🗑️</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && !error && filteredPrograms.length === 0 && programs.length > 0">
+    <div class="empty-icon">🔍</div>
+    <h3>No Programs Found</h3>
+    <p>No programs match your current search and filter criteria.</p>
+    <button class="btn-secondary" (click)="searchTerm = ''; statusFilter = 'all'; applyFilters()">
+      Clear Filters
+    </button>
+  </div>
+
+  <!-- No Programs State -->
+  <div class="empty-state" *ngIf="!loading && !error && programs.length === 0">
+    <div class="empty-icon">📋</div>
+    <h3>No Programs Found</h3>
+    <p>Get started by creating your first program.</p>
+    <button class="btn-primary" (click)="openCreateForm()">Create Program</button>
+  </div>
+</div>

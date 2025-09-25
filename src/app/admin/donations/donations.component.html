@@ -1,0 +1,166 @@
+<div class="donations-container">
+  <div class="header">
+    <h1>Donations Management</h1>
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="loadDonations()">
+        <span class="icon">🔄</span>
+        Refresh
+      </button>
+      <button class="btn-primary" (click)="exportDonations()">
+        <span class="icon">📄</span>
+        Export
+      </button>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters-section" *ngIf="!loading && !error">
+    <div class="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search donations..." 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearchChange()"
+        class="search-input"
+      >
+      <span class="search-icon">🔍</span>
+    </div>
+    
+    <div class="filter-controls">
+      <select [(ngModel)]="statusFilter" (change)="onStatusFilterChange()" class="filter-select">
+        <option value="all">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="completed">Completed</option>
+        <option value="failed">Failed</option>
+      </select>
+      
+      <div class="results-count">
+        Showing {{ filteredDonations.length }} of {{ donations.length }} donations
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk Actions -->
+  <div class="bulk-actions" *ngIf="selectedDonations.size > 0">
+    <div class="selection-info">
+      {{ selectedDonations.size }} donation(s) selected
+    </div>
+    <div class="bulk-buttons">
+      <button class="btn-secondary" (click)="bulkUpdateStatus('completed')">
+        <span class="icon">✓</span>
+        Mark Completed
+      </button>
+      <button class="btn-secondary" (click)="bulkUpdateStatus('failed')">
+        <span class="icon">✗</span>
+        Mark Failed
+      </button>
+      <button class="btn-secondary" (click)="clearSelection()">
+        Clear Selection
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading donations...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error" *ngIf="error && !loading">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button class="btn-primary" (click)="loadDonations()">Try Again</button>
+  </div>
+
+  <!-- Select All -->
+  <div class="select-all-section" *ngIf="!loading && !error && filteredDonations.length > 0">
+    <label class="checkbox-label">
+      <input 
+        type="checkbox" 
+        [checked]="isAllSelected" 
+        [indeterminate]="isIndeterminate"
+        (change)="toggleSelectAll()"
+      >
+      <span class="checkmark">Select All</span>
+    </label>
+  </div>
+
+  <!-- Donations Grid -->
+  <div class="donations-grid" *ngIf="!loading && !error">
+    <div class="donation-card" *ngFor="let donation of filteredDonations">
+      <div class="card-checkbox">
+        <input 
+          type="checkbox" 
+          [checked]="isSelected(donation.id)"
+          (change)="toggleDonationSelection(donation.id)"
+        >
+      </div>
+      
+      <div class="card-content">
+        <div class="donation-header">
+          <h3>{{ donation.donorName || 'Anonymous Donor' }}</h3>
+          <div class="status-badge" [class]="donation.paymentStatus">
+            {{ donation.paymentStatus | titlecase }}
+          </div>
+        </div>
+        
+        <div class="donation-amount">
+          <span class="amount">{{ formatAmount(donation.amount) }}</span>
+        </div>
+        
+        <div class="donation-details">
+          <div class="detail" *ngIf="donation.donorEmail">
+            <span class="label">📧 Email:</span>
+            <span class="value">{{ donation.donorEmail }}</span>
+          </div>
+          <div class="detail" *ngIf="donation.donorPhone">
+            <span class="label">📞 Phone:</span>
+            <span class="value">{{ donation.donorPhone }}</span>
+          </div>
+          <div class="detail" *ngIf="donation.program">
+            <span class="label">🎯 Program:</span>
+            <span class="value">{{ donation.program.title }}</span>
+          </div>
+          <div class="detail">
+            <span class="label">📅 Date:</span>
+            <span class="value">{{ formatDate(donation.createdAt) }}</span>
+          </div>
+        </div>
+
+        <div class="card-meta">
+          <span class="reference" *ngIf="donation.reference">Ref: {{ donation.reference }}</span>
+        </div>
+      </div>
+      
+      <div class="card-actions">
+        <select 
+          class="status-select" 
+          [value]="donation.paymentStatus"
+          (change)="updateDonationStatus(donation.id, $event)"
+        >
+          <option value="pending">Pending</option>
+          <option value="completed">Completed</option>
+          <option value="failed">Failed</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && !error && filteredDonations.length === 0 && donations.length > 0">
+    <div class="empty-icon">🔍</div>
+    <h3>No Donations Found</h3>
+    <p>No donations match your current search and filter criteria.</p>
+    <button class="btn-secondary" (click)="searchTerm = ''; statusFilter = 'all'; applyFilters()">
+      Clear Filters
+    </button>
+  </div>
+
+  <!-- No Donations State -->
+  <div class="empty-state" *ngIf="!loading && !error && donations.length === 0">
+    <div class="empty-icon">💰</div>
+    <h3>No Donations Found</h3>
+    <p>No donations have been received yet.</p>
+  </div>
+</div>
