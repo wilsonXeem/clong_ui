@@ -1,0 +1,115 @@
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1>Success Stories</h1>
+    <p class="page-subtitle">Inspiring Journeys of Faith and Achievement</p>
+  </div>
+</section>
+
+<!-- Loading State -->
+<section class="stories-content" *ngIf="loading">
+  <div class="container">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading stories...</p>
+    </div>
+  </div>
+</section>
+
+<!-- Error State -->
+<section class="stories-content" *ngIf="error && !loading">
+  <div class="container">
+    <div class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>Unable to Load Stories</h3>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadStories()">Try Again</button>
+    </div>
+  </div>
+</section>
+
+<!-- Stories Content -->
+<section class="stories-content" *ngIf="!loading && !error">
+  <div class="container">
+    <!-- No Stories State -->
+    <div class="no-stories" *ngIf="stories.length === 0">
+      <div class="no-stories-content">
+        <div class="no-stories-icon">📖</div>
+        <h3>No Stories Available</h3>
+        <p>We're collecting inspiring stories from our community. Check back soon to read about amazing transformations!</p>
+        <a class="btn btn-primary" routerLink="/contact">Share Your Story</a>
+      </div>
+    </div>
+
+    <!-- Stories Grid -->
+    <div class="stories-grid" *ngIf="stories.length > 0">
+      <div class="story-card" *ngFor="let story of stories">
+        <!-- Story Image -->
+        <div class="story-image">
+          <img *ngIf="story.imageUrl" [src]="story.imageUrl" [alt]="story.title">
+          <div *ngIf="!story.imageUrl" class="image-placeholder">
+            <span class="placeholder-icon">📖</span>
+          </div>
+        </div>
+
+        <!-- Story Content -->
+        <div class="story-content">
+          <h3 class="story-title">{{ story.title }}</h3>
+          <p class="story-excerpt">{{ getExcerpt(story.content) }}</p>
+          
+          <!-- Story Meta -->
+          <div class="story-meta">
+            <span class="story-date">{{ story.createdAt | date:'mediumDate' }}</span>
+          </div>
+
+          <!-- Story Actions -->
+          <div class="story-actions">
+            <a class="btn btn-primary" [routerLink]="['/stories', story.id]">
+              Read Full Story
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Impact Statistics -->
+<section class="impact-stats">
+  <div class="container">
+    <h2 class="section-title">Our Impact</h2>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number">100+</span>
+        <span class="stat-label">Lives Transformed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Scholarships Awarded</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">25+</span>
+        <span class="stat-label">Success Stories</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">10+</span>
+        <span class="stat-label">Years of Impact</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="stories-cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Share Your Story</h2>
+      <p>Have you been impacted by our programs? We'd love to hear your story and share it with others to inspire and encourage them on their journey.</p>
+      <div class="cta-buttons">
+        <a class="btn btn-primary" routerLink="/contact">Submit Your Story</a>
+        <a class="btn btn-gold" routerLink="/apply">Apply for Scholarship</a>
+        <a class="btn btn-outline" routerLink="/about">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>

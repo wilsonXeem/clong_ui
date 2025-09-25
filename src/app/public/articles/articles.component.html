@@ -1,0 +1,103 @@
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1>{{ pageTitle }}</h1>
+    <p class="page-subtitle">
+      {{
+        contentType === "blog"
+          ? "Personal Reflections and Thoughts"
+          : "Insights, Stories, and Updates"
+      }}
+    </p>
+  </div>
+</section>
+
+<!-- Loading State -->
+<section class="articles-content" *ngIf="loading">
+  <div class="container">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading {{ contentType }}s...</p>
+    </div>
+  </div>
+</section>
+
+<!-- Error State -->
+<section class="articles-content" *ngIf="error && !loading">
+  <div class="container">
+    <div class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>
+        Unable to Load {{ contentType === "blog" ? "Blog Posts" : "Articles" }}
+      </h3>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadContent()">Try Again</button>
+    </div>
+  </div>
+</section>
+
+<!-- Articles Content -->
+<section class="articles-content" *ngIf="!loading && !error">
+  <div class="container">
+    <!-- No Articles State -->
+    <div class="no-articles" *ngIf="articles.length === 0">
+      <div class="no-articles-content">
+        <div class="no-articles-icon">
+          {{ contentType === "blog" ? "📝" : "📄" }}
+        </div>
+        <h3>No {{ pageTitle }} Available</h3>
+        <p>
+          {{
+            contentType === "blog"
+              ? "We're working on sharing personal stories and reflections. Check back soon for authentic insights from our community!"
+              : "We're working on creating valuable content for you. Check back soon for inspiring stories and helpful insights!"
+          }}
+        </p>
+        <a class="btn btn-primary" routerLink="/contact">{{
+          contentType === "blog" ? "Share Your Story" : "Suggest Topics"
+        }}</a>
+      </div>
+    </div>
+
+    <!-- Articles Grid -->
+    <div class="articles-grid" *ngIf="articles.length > 0">
+      <article class="article-card" *ngFor="let article of articles">
+        <!-- Article Image -->
+        <div class="article-image">
+          <img
+            *ngIf="article.featuredImage"
+            [src]="article.featuredImage"
+            [alt]="article.title"
+          />
+          <div *ngIf="!article.featuredImage" class="image-placeholder">
+            <span class="placeholder-icon">📄</span>
+          </div>
+        </div>
+
+        <!-- Article Content -->
+        <div class="article-content">
+          <h3 class="article-title">{{ article.title }}</h3>
+          <p class="article-excerpt" *ngIf="article.excerpt">
+            {{ article.excerpt }}
+          </p>
+
+          <!-- Article Meta -->
+          <div class="article-meta">
+            <span class="article-date">{{
+              article.publishedAt | date : "mediumDate"
+            }}</span>
+          </div>
+
+          <!-- Article Actions -->
+          <div class="article-actions">
+            <a
+              class="btn btn-primary"
+              [routerLink]="['/articles', article.slug]"
+              >Read More</a
+            >
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

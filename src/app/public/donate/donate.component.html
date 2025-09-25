@@ -1,0 +1,131 @@
+<div class="donate-page">
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Make a Difference Today</h1>
+      <p class="page-subtitle">Transforming Lives Through Your Generosity</p>
+    </div>
+  </section>
+
+  <!-- Donation Form Section -->
+  <section class="donation-section">
+    <div class="container">
+      <div class="donation-content">
+        <div class="donation-form-card">
+          <h2>Choose Your Donation Amount</h2>
+          
+          <!-- Preset Amounts -->
+          <div class="preset-amounts">
+            <button 
+              *ngFor="let amount of presetAmounts" 
+              type="button"
+              class="amount-btn"
+              [class.selected]="selectedAmount === amount"
+              (click)="selectAmount(amount)">
+              ₦{{ amount | number }}
+            </button>
+          </div>
+
+          <!-- Donation Form -->
+          <form [formGroup]="donationForm" (ngSubmit)="onSubmit()" class="donation-form">
+            <div class="form-group">
+              <label for="amount">Custom Amount (₦)</label>
+              <input 
+                type="number" 
+                id="amount"
+                formControlName="amount"
+                placeholder="Enter amount"
+                min="100"
+                (input)="onCustomAmountChange($event)">
+              <div *ngIf="donationForm.get('amount')?.invalid && donationForm.get('amount')?.touched" class="error">
+                Please enter a valid amount (minimum ₦100)
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="donorName">Full Name</label>
+                <input 
+                  type="text" 
+                  id="donorName"
+                  formControlName="donorName"
+                  placeholder="Your full name">
+                <div *ngIf="donationForm.get('donorName')?.invalid && donationForm.get('donorName')?.touched" class="error">
+                  Name is required
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="donorEmail">Email Address</label>
+                <input 
+                  type="email" 
+                  id="donorEmail"
+                  formControlName="donorEmail"
+                  placeholder="your.email@example.com">
+                <div *ngIf="donationForm.get('donorEmail')?.invalid && donationForm.get('donorEmail')?.touched" class="error">
+                  Valid email is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="isAnonymous">
+                <span class="checkmark"></span>
+                Make this donation anonymous
+              </label>
+            </div>
+
+            <button 
+              type="submit" 
+              class="btn-donate"
+              [disabled]="donationForm.invalid || isLoading">
+              <span *ngIf="!isLoading">Donate Now</span>
+              <span *ngIf="isLoading">Processing...</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Impact Information -->
+        <div class="impact-info">
+          <h3>Your Impact</h3>
+          <div class="impact-items">
+            <div class="impact-item">
+              <div class="impact-icon">📚</div>
+              <div class="impact-content">
+                <h4>₦1,000</h4>
+                <p>Provides study materials for one student</p>
+              </div>
+            </div>
+            <div class="impact-item">
+              <div class="impact-icon">🎓</div>
+              <div class="impact-content">
+                <h4>₦5,000</h4>
+                <p>Sponsors a leadership workshop</p>
+              </div>
+            </div>
+            <div class="impact-item">
+              <div class="impact-icon">💼</div>
+              <div class="impact-content">
+                <h4>₦10,000</h4>
+                <p>Funds career mentorship program</p>
+              </div>
+            </div>
+            <div class="impact-item">
+              <div class="impact-icon">🌟</div>
+              <div class="impact-content">
+                <h4>₦25,000</h4>
+                <p>Supports a full scholarship</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="security-info">
+            <h4>🔒 Secure Donation</h4>
+            <p>Your donation is processed securely through our trusted payment partners. All transactions are encrypted and protected.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

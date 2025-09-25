@@ -1,0 +1,195 @@
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1>Our Programs</h1>
+    <p class="page-subtitle">Empowering Lives Through Faith-Based Initiatives</p>
+  </div>
+</section>
+
+<!-- Loading State -->
+<section class="programs-content" *ngIf="loading">
+  <div class="container">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading programs...</p>
+    </div>
+  </div>
+</section>
+
+<!-- Error State -->
+<section class="programs-content" *ngIf="error && !loading">
+  <div class="container">
+    <div class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>Unable to Load Programs</h3>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadPrograms()">Try Again</button>
+    </div>
+  </div>
+</section>
+
+<!-- Programs Grid -->
+<section class="programs-content" *ngIf="!loading && !error">
+  <div class="container">
+    <!-- Programs Overview -->
+    <div class="programs-overview">
+      <h2 class="section-title">Active Programs</h2>
+      <p class="section-description">Join us in making a difference through these impactful programs that are changing lives across Nigeria and beyond.</p>
+    </div>
+
+    <!-- No Programs State -->
+    <div class="no-programs" *ngIf="programs.length === 0">
+      <div class="no-programs-content">
+        <div class="no-programs-icon">📋</div>
+        <h3>No Active Programs</h3>
+        <p>We're currently preparing new programs. Check back soon for exciting opportunities!</p>
+        <a class="btn btn-primary" routerLink="/contact">Get Notified</a>
+      </div>
+    </div>
+
+    <!-- Programs Grid -->
+    <div class="programs-grid" *ngIf="programs.length > 0">
+      <div class="program-card" *ngFor="let program of programs">
+        <!-- Program Status Badge -->
+        <div class="program-status">
+          <span class="status-badge" 
+                [class.upcoming]="isUpcoming(program)"
+                [class.active]="isActive(program)"
+                [class.completed]="!isActive(program) && !isUpcoming(program)">
+            {{ isUpcoming(program) ? 'Upcoming' : (isActive(program) ? 'Active' : 'Completed') }}
+          </span>
+        </div>
+
+        <!-- Program Image -->
+        <div class="program-image">
+          <img *ngIf="program.imageUrl" [src]="program.imageUrl" [alt]="program.title">
+          <div *ngIf="!program.imageUrl" class="image-placeholder">
+            {{ program.title }}
+          </div>
+        </div>
+
+        <!-- Program Content -->
+        <div class="program-content">
+          <h3 class="program-title">{{ program.title }}</h3>
+          <p class="program-description">{{ program.description }}</p>
+
+          <!-- Program Dates -->
+          <div class="program-dates" *ngIf="program.startDate || program.endDate">
+            <div class="date-item" *ngIf="program.startDate">
+              <span class="date-label">Start:</span>
+              <span class="date-value">{{ program.startDate | date:'mediumDate' }}</span>
+            </div>
+            <div class="date-item" *ngIf="program.endDate">
+              <span class="date-label">End:</span>
+              <span class="date-value">{{ program.endDate | date:'mediumDate' }}</span>
+            </div>
+          </div>
+
+          <!-- Funding Progress -->
+          <div class="funding-progress" *ngIf="program.targetAmount">
+            <div class="progress-header">
+              <span class="progress-label">Funding Progress</span>
+              <span class="progress-percentage">{{ getProgressPercentage(program) | number:'1.0-0' }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="getProgressPercentage(program)"></div>
+            </div>
+            <div class="progress-amounts">
+              <span class="current-amount">{{ formatAmount(program.currentAmount) }}</span>
+              <span class="target-amount">of {{ formatAmount(program.targetAmount) }}</span>
+            </div>
+          </div>
+
+          <!-- Program Actions -->
+          <div class="program-actions">
+            <a class="btn btn-primary" routerLink="/donate" [queryParams]="{program: program.id}">
+              Support This Program
+            </a>
+            <button class="btn btn-outline" (click)="shareProgram(program)">
+              Share
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Program Categories Section -->
+<section class="program-categories">
+  <div class="container">
+    <h2 class="section-title">Program Categories</h2>
+    <div class="categories-grid">
+      <div class="category-card">
+        <div class="category-icon">🎓</div>
+        <h4>Scholarship Programs</h4>
+        <p>Financial support for deserving students pursuing higher education in various fields of study.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">👥</div>
+        <h4>Mentorship Programs</h4>
+        <p>One-on-one guidance and career development support from experienced professionals.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">💼</div>
+        <h4>Career Development</h4>
+        <p>Workshops, seminars, and training programs to enhance professional skills and competencies.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🌟</div>
+        <h4>Leadership Training</h4>
+        <p>Comprehensive programs designed to develop Godly leaders who will impact their communities.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🤝</div>
+        <h4>Community Outreach</h4>
+        <p>Programs focused on giving back to communities and addressing social challenges.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">📚</div>
+        <h4>Educational Resources</h4>
+        <p>Access to books, online courses, and educational materials for continuous learning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Impact Statistics -->
+<section class="impact-stats">
+  <div class="container">
+    <h2 class="section-title">Our Impact</h2>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number">500+</span>
+        <span class="stat-label">Lives Transformed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Scholarships Awarded</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">25+</span>
+        <span class="stat-label">Programs Completed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">10+</span>
+        <span class="stat-label">Years of Service</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="programs-cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Get Involved</h2>
+      <p>Join us in making a difference. Whether you want to apply for a program, volunteer, or support our initiatives, there's a place for you in our mission.</p>
+      <div class="cta-buttons">
+        <a class="btn btn-primary" routerLink="/volunteer">Apply for Programs</a>
+        <a class="btn btn-gold" routerLink="/donate">Support Programs</a>
+        <a class="btn btn-outline" routerLink="/contact">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>

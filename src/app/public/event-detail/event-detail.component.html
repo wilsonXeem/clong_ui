@@ -1,0 +1,45 @@
+<div class="event-detail-container">
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading event...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <h2>Event Not Found</h2>
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="event && !loading">
+    <h2>{{ event.title }}</h2>
+    <p>{{ event.description }}</p>
+    
+    <div class="countdown-section">
+      <h3>Event starts in:</h3>
+      <app-countdown-timer [targetDate]="event.eventDate"></app-countdown-timer>
+      
+      <div class="event-info">
+        <p><strong>Date:</strong> {{ event.eventDate | date:'fullDate' }}</p>
+        <p><strong>Time:</strong> {{ event.eventDate | date:'shortTime' }}</p>
+        <p *ngIf="event.location"><strong>Location:</strong> {{ event.location }}</p>
+        <p *ngIf="event.maxAttendees"><strong>Capacity:</strong> {{ event.currentAttendees }}/{{ event.maxAttendees }}</p>
+      </div>
+      
+      <button class="register-btn" (click)="showRegistration()" *ngIf="event.isActive && !showRegistrationForm">
+        Register Now
+      </button>
+      
+      <div class="registration-form" *ngIf="showRegistrationForm">
+        <h4>Event Registration</h4>
+        <form #registrationForm="ngForm" (ngSubmit)="submitRegistration()">
+          <input type="text" name="attendeeName" [(ngModel)]="registrationData.attendeeName" placeholder="Full Name" required>
+          <input type="email" name="attendeeEmail" [(ngModel)]="registrationData.attendeeEmail" placeholder="Email Address" required>
+          <input type="tel" name="attendeePhone" [(ngModel)]="registrationData.attendeePhone" placeholder="Phone Number (Optional)">
+          <div class="form-actions">
+            <button type="submit" class="register-btn">Submit Registration</button>
+            <button type="button" class="cancel-btn" (click)="cancelRegistration()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

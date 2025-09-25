@@ -1,0 +1,297 @@
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1>Our Events</h1>
+    <p class="page-subtitle">Transforming Lives Through Faith-Based Gatherings</p>
+  </div>
+</section>
+
+<!-- Loading State -->
+<section class="events-content" *ngIf="loading">
+  <div class="container">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading events...</p>
+    </div>
+  </div>
+</section>
+
+<!-- Error State -->
+<section class="events-content" *ngIf="error && !loading">
+  <div class="container">
+    <div class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>Unable to Load Events</h3>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadEvents()">Try Again</button>
+    </div>
+  </div>
+</section>
+
+<!-- Events Grid -->
+<section class="events-content" *ngIf="!loading && !error">
+  <div class="container">
+    <!-- Events Tabs -->
+    <div class="events-tabs">
+      <button class="tab-button" 
+              [class.active]="activeTab === 'upcoming'"
+              (click)="switchTab('upcoming')">
+        Upcoming Events ({{ upcomingEvents.length }})
+      </button>
+      <button class="tab-button" 
+              [class.active]="activeTab === 'past'"
+              (click)="switchTab('past')">
+        Past Events Archive ({{ pastEvents.length }})
+      </button>
+    </div>
+
+    <!-- Upcoming Events Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'upcoming'">
+      <div class="events-overview">
+        <h2 class="section-title">Upcoming Events</h2>
+        <p class="section-description">Don't miss these life-changing events that will inspire, educate, and connect you with like-minded individuals.</p>
+      </div>
+
+      <div class="no-events" *ngIf="upcomingEvents.length === 0">
+        <div class="no-events-content">
+          <div class="no-events-icon">📅</div>
+          <h3>No Upcoming Events</h3>
+          <p>We're planning exciting events for you. Check back soon or subscribe to our newsletter for updates!</p>
+          <a class="btn btn-primary" routerLink="/contact">Get Notified</a>
+        </div>
+      </div>
+
+      <div class="events-grid" *ngIf="upcomingEvents.length > 0">
+        <div class="event-card" *ngFor="let event of upcomingEvents">
+        <!-- Event Status Badge -->
+        <div class="event-status">
+          <span class="status-badge" 
+                [class.upcoming]="isUpcoming(event)"
+                [class.ongoing]="isOngoing(event)"
+                [class.completed]="isCompleted(event)">
+            {{ getEventStatus(event) }}
+          </span>
+        </div>
+
+        <!-- Event Image -->
+        <div class="event-image">
+          <img *ngIf="event.imageUrl" [src]="event.imageUrl" [alt]="event.title">
+          <div *ngIf="!event.imageUrl" class="image-placeholder">
+            {{ event.title }}
+          </div>
+        </div>
+
+        <!-- Event Content -->
+        <div class="event-content">
+          <h3 class="event-title">{{ event.title }}</h3>
+          <p class="event-description">{{ event.description }}</p>
+
+          <!-- Event Details -->
+          <div class="event-details">
+            <div class="detail-item" *ngIf="event.eventDate">
+              <span class="detail-icon">📅</span>
+              <span class="detail-text">{{ event.eventDate | date:'fullDate' }}</span>
+            </div>
+            <div class="detail-item" *ngIf="event.eventDate">
+              <span class="detail-icon">🕐</span>
+              <span class="detail-text">{{ event.eventDate | date:'shortTime' }}</span>
+            </div>
+            <div class="detail-item" *ngIf="event.location">
+              <span class="detail-icon">📍</span>
+              <span class="detail-text">{{ event.location }}</span>
+            </div>
+            <div class="detail-item" *ngIf="event.maxAttendees">
+              <span class="detail-icon">👥</span>
+              <span class="detail-text">{{ event.currentAttendees }}/{{ event.maxAttendees }} registered</span>
+            </div>
+          </div>
+
+          <!-- Registration Progress -->
+          <div class="registration-progress" *ngIf="event.maxAttendees">
+            <div class="progress-header">
+              <span class="progress-label">Registration Progress</span>
+              <span class="progress-percentage">{{ getRegistrationPercentage(event) | number:'1.0-0' }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="getRegistrationPercentage(event)"></div>
+            </div>
+          </div>
+
+          <!-- Event Actions -->
+          <div class="event-actions">
+            <a class="btn btn-primary" 
+               [routerLink]="['/events', event.id]"
+               *ngIf="!isCompleted(event)">
+              {{ isRegistrationOpen(event) ? 'Register Now' : 'Learn More' }}
+            </a>
+            <button class="btn btn-outline" (click)="shareEvent(event)">
+              Share
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- Past Events Archive Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'past'">
+      <div class="events-overview">
+        <h2 class="section-title">Past Events Archive</h2>
+        <p class="section-description">Explore our previous events, view photos, recordings, and testimonials from past attendees.</p>
+      </div>
+
+      <div class="no-events" *ngIf="pastEvents.length === 0">
+        <div class="no-events-content">
+          <div class="no-events-icon">📚</div>
+          <h3>No Past Events</h3>
+          <p>Our event archive will be populated as we host more events. Stay tuned!</p>
+        </div>
+      </div>
+
+      <div class="events-grid past-events-grid" *ngIf="pastEvents.length > 0">
+        <div class="event-card past-event-card" *ngFor="let event of pastEvents">
+          <div class="event-status">
+            <span class="status-badge completed">Completed</span>
+          </div>
+
+          <div class="event-image">
+            <img *ngIf="event.imageUrl" [src]="event.imageUrl" [alt]="event.title">
+            <div *ngIf="!event.imageUrl" class="image-placeholder">
+              {{ event.title }}
+            </div>
+          </div>
+
+          <div class="event-content">
+            <h3 class="event-title">{{ event.title }}</h3>
+            <p class="event-description">{{ event.description }}</p>
+
+            <div class="event-details">
+              <div class="detail-item">
+                <span class="detail-icon">📅</span>
+                <span class="detail-text">{{ event.eventDate | date:'fullDate' }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-icon">📍</span>
+                <span class="detail-text">{{ event.location }}</span>
+              </div>
+              <div class="detail-item" *ngIf="event.maxAttendees">
+                <span class="detail-icon">👥</span>
+                <span class="detail-text">{{ event.currentAttendees || event.maxAttendees }} attended</span>
+              </div>
+            </div>
+
+            <div class="past-event-resources">
+              <h5>Event Resources</h5>
+              <div class="resource-links">
+                <a class="resource-link" href="#" title="Photo Gallery">
+                  <span class="resource-icon">📸</span>
+                  Photos
+                </a>
+                <a class="resource-link" href="#" title="Video Recordings">
+                  <span class="resource-icon">🎥</span>
+                  Videos
+                </a>
+                <a class="resource-link" href="#" title="Testimonials">
+                  <span class="resource-icon">💬</span>
+                  Testimonials
+                </a>
+                <a class="resource-link" href="#" title="Event Materials">
+                  <span class="resource-icon">📄</span>
+                  Materials
+                </a>
+              </div>
+            </div>
+
+            <div class="event-actions">
+              <a class="btn btn-outline" [routerLink]="['/events', event.id]">
+                View Details
+              </a>
+              <button class="btn btn-outline" (click)="shareEvent(event)">
+                Share
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Event Types Section -->
+<section class="event-types">
+  <div class="container">
+    <h2 class="section-title">Event Types</h2>
+    <div class="types-grid">
+      <div class="type-card">
+        <div class="type-icon">🎤</div>
+        <h4>Conferences</h4>
+        <p>Large-scale gatherings featuring keynote speakers, workshops, and networking opportunities.</p>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">📚</div>
+        <h4>Workshops</h4>
+        <p>Hands-on learning sessions focused on specific skills and practical applications.</p>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">💼</div>
+        <h4>Seminars</h4>
+        <p>Educational sessions covering academic and career development topics.</p>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">🤝</div>
+        <h4>Networking Events</h4>
+        <p>Opportunities to connect with mentors, peers, and industry professionals.</p>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">🎓</div>
+        <h4>Graduation Ceremonies</h4>
+        <p>Celebrating the achievements of our scholarship recipients and program graduates.</p>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">🙏</div>
+        <h4>Prayer & Fellowship</h4>
+        <p>Spiritual gatherings for prayer, worship, and community building.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Past Events Highlights -->
+<section class="past-events">
+  <div class="container">
+    <h2 class="section-title">Past Event Highlights</h2>
+    <div class="highlights-grid">
+      <div class="highlight-item">
+        <span class="highlight-number">2024</span>
+        <span class="highlight-text">Ambidextrous Generation Conference</span>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-number">500+</span>
+        <span class="highlight-text">Total Attendees</span>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-number">25+</span>
+        <span class="highlight-text">Events Hosted</span>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-number">15+</span>
+        <span class="highlight-text">Expert Speakers</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="events-cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Stay Connected</h2>
+      <p>Never miss an event! Subscribe to our newsletter and follow us on social media for the latest updates on upcoming events and registration openings.</p>
+      <div class="cta-buttons">
+        <a class="btn btn-primary" routerLink="/volunteer">Volunteer at Events</a>
+        <a class="btn btn-gold" routerLink="/donate">Sponsor an Event</a>
+        <a class="btn btn-outline" routerLink="/contact">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>

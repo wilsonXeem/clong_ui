@@ -1,0 +1,151 @@
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Raising Godly Leaders in Academia and Career</h1>
+        <p class="page-subtitle">
+          Empowering the next generation through scholarships, mentorship, and
+          capacity building programs that transform lives and communities.
+        </p>
+        <div class="header-actions">
+          <a class="btn btn-primary" routerLink="/events">View Events</a>
+          <a class="btn btn-gold" routerLink="/donate">Support Us</a>
+        </div>
+      </div>
+      <div class="header-logo">
+        <img src="assets/images/logo.png" alt="CloNG Project Logo" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission Statement -->
+<section class="mission">
+  <div class="container">
+    <div class="mission-content">
+      <h2>Our Mission</h2>
+      <p>
+        To raise Godly leaders who will excel in academia and make significant
+        impact in their chosen careers, transforming society through Christian
+        values and excellence.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="upcoming-events">
+  <div class="container">
+    <h2 class="section-title">Upcoming Events</h2>
+    <div class="events-grid" *ngIf="upcomingEvents.length > 0">
+      <div class="event-card" 
+           *ngFor="let event of upcomingEvents; let i = index"
+           [class.featured]="i === 0">
+        <div class="event-image">
+          <img *ngIf="event.imageUrl" [src]="event.imageUrl" [alt]="event.title">
+          <div *ngIf="!event.imageUrl" class="image-placeholder event-placeholder">
+            {{ event.title }}
+          </div>
+        </div>
+        <div class="event-content">
+          <h3>{{ event.title }}</h3>
+          <p class="event-date">{{ event.eventDate | date:'fullDate' }}</p>
+          <p class="event-description">{{ event.description }}</p>
+          <app-countdown-timer [targetDate]="event.eventDate"></app-countdown-timer>
+          <a class="btn btn-primary" [routerLink]="['/events', event.id]">
+            {{ i === 0 ? 'Learn More' : 'Register Now' }}
+          </a>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="upcomingEvents.length === 0" class="no-events">
+      <p>No upcoming events at the moment. Check back soon!</p>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Success Story -->
+<section class="featured-story" *ngIf="featuredStory">
+  <div class="container">
+    <h2 class="section-title">Featured Success Story</h2>
+    <div class="story-card">
+      <div class="story-image">
+        <img *ngIf="featuredStory.imageUrl" [src]="featuredStory.imageUrl" [alt]="featuredStory.title">
+        <div *ngIf="!featuredStory.imageUrl" class="image-placeholder story-placeholder">
+          {{ featuredStory.title }}
+        </div>
+      </div>
+      <div class="story-content">
+        <h3>{{ featuredStory.title }}</h3>
+        <p class="story-title">Success Story</p>
+        <p class="story-excerpt">{{ featuredStory.content | slice:0:200 }}...</p>
+        <a class="btn btn-gold" routerLink="/stories">Read More Stories</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Programs Overview -->
+<section class="programs-overview" *ngIf="!loading">
+  <div class="container">
+    <h2 class="section-title">Our Programs</h2>
+    <div class="programs-grid" *ngIf="programs.length > 0">
+      <div class="program-card" *ngFor="let program of programs">
+        <div class="program-icon">
+          <img *ngIf="program.imageUrl" [src]="program.imageUrl" [alt]="program.title">
+          <i *ngIf="!program.imageUrl" class="icon-program">📚</i>
+        </div>
+        <h3>{{ program.title }}</h3>
+        <p>{{ program.description }}</p>
+        <a routerLink="/programs" class="program-link">Learn More</a>
+      </div>
+    </div>
+    <div *ngIf="programs.length === 0" class="no-programs">
+      <p>Programs information will be available soon.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Impact Statistics -->
+<section class="impact-stats">
+  <div class="container">
+    <h2 class="section-title">Our Impact</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">150+</div>
+        <div class="stat-label">Scholarships Awarded</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Lives Transformed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">25+</div>
+        <div class="stat-label">Partner Organizations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Years of Impact</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Join Our Mission</h2>
+      <p>
+        Be part of raising the next generation of Godly leaders. Your support
+        makes a difference.
+      </p>
+      <div class="cta-buttons">
+        <a class="btn btn-primary" routerLink="/volunteer">Volunteer</a>
+        <a class="btn btn-gold" routerLink="/donate">Donate Now</a>
+        <app-newsletter-signup></app-newsletter-signup>
+      </div>
+    </div>
+  </div>
+</section>

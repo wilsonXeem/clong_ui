@@ -1,0 +1,132 @@
+<div class="volunteer-page">
+  <div class="hero-section">
+    <div class="container">
+      <h1>Join Our Volunteer Team</h1>
+      <p>Make a difference in the lives of young people by volunteering with CloNG</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Existing Application Display -->
+    <div *ngIf="hasExistingApplication" class="existing-application">
+      <div class="application-card">
+        <h3>Your Volunteer Application</h3>
+        <div class="status-badge" [style.background-color]="getStatusColor(existingApplication.status)">
+          {{ existingApplication.status | titlecase }}
+        </div>
+        <div class="application-details">
+          <p><strong>Skills:</strong> {{ existingApplication.skills }}</p>
+          <p><strong>Availability:</strong> {{ existingApplication.availability }}</p>
+          <p><strong>Interests:</strong> {{ existingApplication.interests }}</p>
+          <p *ngIf="existingApplication.experience"><strong>Experience:</strong> {{ existingApplication.experience }}</p>
+          <p><strong>Motivation:</strong> {{ existingApplication.motivation }}</p>
+          <p><strong>Applied:</strong> {{ existingApplication.createdAt | date:'medium' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volunteer Information -->
+    <div class="volunteer-info" *ngIf="!hasExistingApplication">
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>Why Volunteer?</h3>
+          <ul>
+            <li>Make a meaningful impact in young lives</li>
+            <li>Develop leadership and mentoring skills</li>
+            <li>Be part of a community of like-minded individuals</li>
+            <li>Gain valuable experience in youth development</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h3>Volunteer Opportunities</h3>
+          <ul>
+            <li>Youth mentorship programs</li>
+            <li>Educational workshops and seminars</li>
+            <li>Community outreach events</li>
+            <li>Administrative and organizational support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Application Form -->
+    <div class="application-form" *ngIf="!hasExistingApplication">
+      <h2>Volunteer Application</h2>
+      <p *ngIf="!isLoggedIn" class="login-notice">
+        Please <a routerLink="/auth/login">login</a> to submit your volunteer application.
+      </p>
+      
+      <form [formGroup]="volunteerForm" (ngSubmit)="onSubmit()" *ngIf="isLoggedIn">
+        <div class="form-group">
+          <label for="skills">Skills & Talents *</label>
+          <textarea 
+            id="skills" 
+            formControlName="skills" 
+            placeholder="Describe your skills, talents, and areas of expertise (e.g., teaching, event management, social media, etc.)"
+            rows="4"
+          ></textarea>
+          <div class="error" *ngIf="volunteerForm.get('skills')?.invalid && volunteerForm.get('skills')?.touched">
+            Please provide details about your skills (minimum 10 characters)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="availability">Availability *</label>
+          <textarea 
+            id="availability" 
+            formControlName="availability" 
+            placeholder="When are you available to volunteer? (e.g., weekends, evenings, specific days)"
+            rows="3"
+          ></textarea>
+          <div class="error" *ngIf="volunteerForm.get('availability')?.invalid && volunteerForm.get('availability')?.touched">
+            Please specify your availability (minimum 5 characters)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="interests">Areas of Interest *</label>
+          <textarea 
+            id="interests" 
+            formControlName="interests" 
+            placeholder="What areas of our work interest you most? (e.g., youth mentorship, educational programs, community outreach)"
+            rows="4"
+          ></textarea>
+          <div class="error" *ngIf="volunteerForm.get('interests')?.invalid && volunteerForm.get('interests')?.touched">
+            Please describe your areas of interest (minimum 10 characters)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="experience">Previous Experience</label>
+          <textarea 
+            id="experience" 
+            formControlName="experience" 
+            placeholder="Tell us about any previous volunteer or relevant work experience (optional)"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="motivation">Motivation *</label>
+          <textarea 
+            id="motivation" 
+            formControlName="motivation" 
+            placeholder="Why do you want to volunteer with CloNG? What motivates you to work with young people?"
+            rows="4"
+          ></textarea>
+          <div class="error" *ngIf="volunteerForm.get('motivation')?.invalid && volunteerForm.get('motivation')?.touched">
+            Please share your motivation (minimum 20 characters)
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn-submit" 
+          [disabled]="volunteerForm.invalid || isSubmitting"
+        >
+          {{ isSubmitting ? 'Submitting...' : 'Submit Application' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<!-- Loading State -->
+<section class="article-detail" *ngIf="loading">
+  <div class="container">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading article...</p>
+    </div>
+  </div>
+</section>
+
+<!-- Error State -->
+<section class="article-detail" *ngIf="error && !loading">
+  <div class="container">
+    <div class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>Article Not Found</h3>
+      <p>{{ error }}</p>
+      <a class="btn btn-primary" routerLink="/articles">Back to Articles</a>
+    </div>
+  </div>
+</section>
+
+<!-- Page Header -->
+<section class="page-header" *ngIf="article && !loading && !error">
+  <div class="container">
+    <div class="breadcrumb">
+      <a routerLink="/articles">Articles</a>
+      <span class="separator">›</span>
+      <span>{{ article.title }}</span>
+    </div>
+    <h1>{{ article.title }}</h1>
+    <div class="article-meta">
+      <span class="article-date">{{ article.publishedAt | date:'fullDate' }}</span>
+      <button class="share-btn" (click)="shareArticle()">
+        <span class="share-icon">🔗</span>
+        Share
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Article Content -->
+<section class="article-detail" *ngIf="article && !loading && !error">
+  <div class="container">
+
+    <!-- Featured Image -->
+    <div class="article-image" *ngIf="article.featuredImage">
+      <img [src]="article.featuredImage" [alt]="article.title">
+    </div>
+
+    <!-- Article Content -->
+    <div class="article-content">
+      <div class="article-excerpt" *ngIf="article.excerpt">
+        <p>{{ article.excerpt }}</p>
+      </div>
+      
+      <div class="article-body" [innerHTML]="article.content"></div>
+    </div>
+
+    <!-- Article Actions -->
+    <div class="article-actions">
+      <a class="btn btn-outline" routerLink="/articles">← Back to Articles</a>
+      <button class="btn btn-primary" (click)="shareArticle()">Share Article</button>
+    </div>
+  </div>
+</section>

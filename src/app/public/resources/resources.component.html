@@ -1,0 +1,133 @@
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1>Resources</h1>
+    <p class="page-subtitle">Tools and Materials for Your Journey</p>
+  </div>
+</section>
+
+<!-- Loading State -->
+<section class="resources-content" *ngIf="loading">
+  <div class="container">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading resources...</p>
+    </div>
+  </div>
+</section>
+
+<!-- Error State -->
+<section class="resources-content" *ngIf="error && !loading">
+  <div class="container">
+    <div class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>Unable to Load Resources</h3>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadResources()">Try Again</button>
+    </div>
+  </div>
+</section>
+
+<!-- Resources Content -->
+<section class="resources-content" *ngIf="!loading && !error">
+  <div class="container">
+    <!-- No Resources State -->
+    <div class="no-resources" *ngIf="resources.length === 0">
+      <div class="no-resources-content">
+        <div class="no-resources-icon">📚</div>
+        <h3>No Resources Available</h3>
+        <p>We're building our resource library. Check back soon for helpful guides, templates, and materials!</p>
+        <a class="btn btn-primary" routerLink="/contact">Request Resources</a>
+      </div>
+    </div>
+
+    <!-- Resources Grid -->
+    <div class="resources-grid" *ngIf="resources.length > 0">
+      <div class="resource-card" *ngFor="let resource of resources">
+        <!-- Resource Image -->
+        <div class="resource-image">
+          <img *ngIf="resource.imageUrl" [src]="resource.imageUrl" [alt]="resource.title">
+          <div *ngIf="!resource.imageUrl" class="image-placeholder">
+            <span class="placeholder-icon">📄</span>
+          </div>
+        </div>
+
+        <!-- Resource Content -->
+        <div class="resource-content">
+          <h3 class="resource-title">{{ resource.title }}</h3>
+          <p class="resource-description">{{ resource.description }}</p>
+          
+          <!-- Resource Meta -->
+          <div class="resource-meta">
+            <span class="resource-type">{{ resource.type }}</span>
+            <span class="resource-date">{{ resource.createdAt | date:'mediumDate' }}</span>
+          </div>
+
+          <!-- Resource Actions -->
+          <div class="resource-actions">
+            <a class="btn btn-primary" [href]="resource.fileUrl" target="_blank" *ngIf="resource.fileUrl">
+              Download
+            </a>
+            <a class="btn btn-outline" [routerLink]="['/resources', resource.id]">
+              View Details
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Resource Categories -->
+<section class="resource-categories">
+  <div class="container">
+    <h2 class="section-title">Resource Categories</h2>
+    <div class="categories-grid">
+      <div class="category-card">
+        <div class="category-icon">🎓</div>
+        <h4>Academic Guides</h4>
+        <p>Study guides, research templates, and academic writing resources.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">💼</div>
+        <h4>Career Development</h4>
+        <p>Resume templates, interview guides, and career planning tools.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">📖</div>
+        <h4>Spiritual Growth</h4>
+        <p>Devotionals, Bible study guides, and faith-building materials.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🏆</div>
+        <h4>Leadership</h4>
+        <p>Leadership development resources and mentorship guides.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">💰</div>
+        <h4>Financial Literacy</h4>
+        <p>Budgeting tools, scholarship guides, and financial planning resources.</p>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🌟</div>
+        <h4>Personal Development</h4>
+        <p>Goal setting templates, productivity tools, and self-improvement guides.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="resources-cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Need Specific Resources?</h2>
+      <p>Can't find what you're looking for? Let us know what resources would be helpful for your academic or career journey, and we'll work to provide them.</p>
+      <div class="cta-buttons">
+        <a class="btn btn-primary" routerLink="/contact">Request Resources</a>
+        <a class="btn btn-gold" routerLink="/programs">Join Our Programs</a>
+        <a class="btn btn-outline" routerLink="/about">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>

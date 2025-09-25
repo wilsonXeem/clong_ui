@@ -1,0 +1,99 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Join CloNG</h2>
+      <p>Create your account to get started</p>
+    </div>
+    <div class="auth-form">
+      <h2>Create Account</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name *</label>
+            <input 
+              id="firstName" 
+              type="text" 
+              formControlName="firstName" 
+              placeholder="Enter your first name"
+            >
+            <div class="error" *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+              First name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name *</label>
+            <input 
+              id="lastName" 
+              type="text" 
+              formControlName="lastName" 
+              placeholder="Enter your last name"
+            >
+            <div class="error" *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+              Last name is required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input 
+            id="email" 
+            type="email" 
+            formControlName="email" 
+            placeholder="Enter your email"
+          >
+          <div class="error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            Please enter a valid email address
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input 
+            id="phone" 
+            type="tel" 
+            formControlName="phone" 
+            placeholder="Enter your phone number"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <input 
+            id="password" 
+            type="password" 
+            formControlName="password" 
+            placeholder="Create a password"
+          >
+          <div class="error" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            Password must be at least 6 characters
+          </div>
+        </div>
+
+        <div class="message-container">
+          <div class="success-message" *ngIf="successMessage">
+            {{ successMessage }}
+          </div>
+          <div class="error-message" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn-submit" 
+          [disabled]="registerForm.invalid || isSubmitting"
+          (click)="clearMessages()"
+        >
+          <span *ngIf="isSubmitting" class="loading-spinner"></span>
+          {{ isSubmitting ? 'Creating Account...' : 'Create Account' }}
+        </button>
+      </form>
+
+      <div class="auth-links">
+        <p>Already have an account? <a routerLink="/login">Sign in here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
