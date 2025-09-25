@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+router-outlet + * {
+  flex: 1;
+}
+
+/* Ensure content doesn't hide behind fixed navbar */
+app-navbar + router-outlet {
+  margin-top: 0;
+}
+
+/* Ensure admin content doesn't hide behind fixed admin navbar */
+app-admin-navbar + router-outlet {
+  margin-top: 80px;
+}

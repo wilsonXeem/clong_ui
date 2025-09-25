@@ -1,0 +1,25 @@
+<div class="newsletter-signup">
+  <form (ngSubmit)="onSubmit()" #newsletterForm="ngForm">
+    <div class="form-group">
+      <input 
+        type="email" 
+        [(ngModel)]="email" 
+        name="email" 
+        placeholder="Enter your email address" 
+        class="email-input" 
+        required 
+        email
+        #emailInput="ngModel"
+      />
+      <button type="submit" class="btn-subscribe" [disabled]="!newsletterForm.valid || isSubmitting">
+        {{ isSubmitting ? 'Subscribing...' : 'Join Our Mailing List' }}
+      </button>
+    </div>
+    <div class="error-message" *ngIf="emailInput.invalid && emailInput.touched">
+      Please enter a valid email address
+    </div>
+    <div class="success-message" *ngIf="showSuccess">
+      Thank you for subscribing to our newsletter!
+    </div>
+  </form>
+</div>

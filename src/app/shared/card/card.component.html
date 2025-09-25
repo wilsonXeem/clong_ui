@@ -1,0 +1,17 @@
+<div class="card" [class.clickable]="clickable" (click)="onCardClick()">
+  <div class="card-image" *ngIf="imageUrl">
+    <img [src]="imageUrl" [alt]="title" />
+  </div>
+  
+  <div class="card-content">
+    <h3 class="card-title" *ngIf="title">{{ title }}</h3>
+    <p class="card-description" *ngIf="description">{{ description }}</p>
+    <div class="card-meta" *ngIf="date || author">
+      <span *ngIf="date" class="card-date">{{ date | date:'mediumDate' }}</span>
+      <span *ngIf="author" class="card-author">by {{ author }}</span>
+    </div>
+    <div class="card-actions" *ngIf="buttonText">
+      <button class="btn-primary" (click)="onButtonClick($event)">{{ buttonText }}</button>
+    </div>
+  </div>
+</div>

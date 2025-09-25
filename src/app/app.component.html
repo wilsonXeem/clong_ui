@@ -1,0 +1,4 @@
+<app-navbar *ngIf="!isAuthPage && !isAdminPage"></app-navbar>
+<app-admin-navbar *ngIf="isAdminPage && !isAuthPage"></app-admin-navbar>
+<router-outlet></router-outlet>
+<app-footer *ngIf="!isAuthPage && !isAdminPage"></app-footer>

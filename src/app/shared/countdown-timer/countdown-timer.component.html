@@ -1,0 +1,22 @@
+<div class="countdown-timer" *ngIf="!isExpired">
+  <div class="timer-item">
+    <span class="timer-number">{{ timeLeft.days }}</span>
+    <span class="timer-label">Days</span>
+  </div>
+  <div class="timer-item">
+    <span class="timer-number">{{ timeLeft.hours }}</span>
+    <span class="timer-label">Hours</span>
+  </div>
+  <div class="timer-item">
+    <span class="timer-number">{{ timeLeft.minutes }}</span>
+    <span class="timer-label">Minutes</span>
+  </div>
+  <div class="timer-item">
+    <span class="timer-number">{{ timeLeft.seconds }}</span>
+    <span class="timer-label">Seconds</span>
+  </div>
+</div>
+
+<div class="countdown-expired" *ngIf="isExpired">
+  <p>Event has started!</p>
+</div>

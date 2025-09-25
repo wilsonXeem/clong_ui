@@ -1,0 +1,68 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a routerLink="/">
+        <img
+          src="assets/images/logo.png"
+          alt="CloNG Project"
+          class="navbar-logo"
+        />
+      </a>
+    </div>
+
+    <div class="nav-menu" [class.active]="isMenuOpen">
+      <a routerLink="/" class="nav-link" (click)="closeMenu()">Home</a>
+      <a routerLink="/about" class="nav-link" (click)="closeMenu()">About</a>
+      <a routerLink="/programs" class="nav-link" (click)="closeMenu()"
+        >Programs</a
+      >
+      <a routerLink="/events" class="nav-link" (click)="closeMenu()">Events</a>
+      <a routerLink="/stories" class="nav-link" (click)="closeMenu()"
+        >Success Stories</a
+      >
+      <a routerLink="/resources" class="nav-link" (click)="closeMenu()"
+        >Resources</a
+      >
+      <a routerLink="/articles" class="nav-link" (click)="closeMenu()">Articles</a>
+      <a routerLink="/blog" class="nav-link" (click)="closeMenu()">Blog</a>
+
+      <a routerLink="/contact" class="nav-link" (click)="closeMenu()"
+        >Contact</a
+      >
+      
+      <!-- Profile Dropdown -->
+      <div class="profile-dropdown" (click)="toggleProfileMenu()">
+        <div class="profile-icon" [class.logged-in]="authService.isLoggedIn()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
+          </svg>
+          <div *ngIf="authService.isLoggedIn()" class="login-indicator"></div>
+        </div>
+        
+        <div class="profile-menu" [class.active]="isProfileMenuOpen">
+          <div *ngIf="!authService.isLoggedIn()" class="profile-menu-content">
+            <a routerLink="/login" class="profile-menu-item" (click)="closeProfileMenu()">Login</a>
+            <a routerLink="/register" class="profile-menu-item" (click)="closeProfileMenu()">Register</a>
+          </div>
+          
+          <div *ngIf="authService.isLoggedIn()" class="profile-menu-content">
+            <div class="profile-welcome">{{ authService.getCurrentUser()?.firstName }}</div>
+            <a routerLink="/profile" class="profile-menu-item" (click)="closeProfileMenu()">View Profile</a>
+            <a (click)="logout()" class="profile-menu-item logout-item">Logout</a>
+          </div>
+        </div>
+      </div>
+      
+      <a routerLink="/donate" class="btn-gold nav-cta" (click)="closeMenu()"
+        >Donate</a
+      >
+    </div>
+
+    <div class="nav-toggle" (click)="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</nav>
