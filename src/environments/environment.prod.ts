@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://clong-backend.vercel.app/api', // Update this with your actual backend domain
+  apiUrl: 'https://clong-server.vercel.app/api',
   enableAnalytics: true,
-  enableLogging: false
+  enableLogging: false,
 };
