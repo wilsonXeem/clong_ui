@@ -31,14 +31,68 @@
 <!-- Stories Content -->
 <section class="stories-content" *ngIf="!loading && !error">
   <div class="container">
-    <!-- No Stories State -->
-    <div class="no-stories" *ngIf="stories.length === 0">
-      <div class="no-stories-content">
-        <div class="no-stories-icon">📖</div>
-        <h3>No Stories Available</h3>
-        <p>We're collecting inspiring stories from our community. Check back soon to read about amazing transformations!</p>
-        <a class="btn btn-primary" routerLink="/contact">Share Your Story</a>
+    <!-- Success Stories Overview -->
+    <div class="stories-overview">
+      <h2 class="section-title">Success Stories and Alumni Profiles</h2>
+      <p class="section-description">
+        CloNG Project Intl celebrates the achievements of its alumni, who span fields from science to law. Our graduates often become the first in their families to earn college or advanced degrees, crediting CloNG's mentorship with their success. For instance, a recent mentee went from finishing NYSC to securing Masters degree program in the United States.
+      </p>
+    </div>
+
+    <!-- Alumni Spotlights -->
+    <div class="alumni-spotlights">
+      <h3 class="spotlight-title">Alumni Spotlights</h3>
+      <div class="spotlights-grid">
+        <div class="spotlight-card">
+          <div class="spotlight-image">
+            <div class="image-placeholder">
+              <span class="placeholder-icon">🎓</span>
+            </div>
+          </div>
+          <div class="spotlight-content">
+            <h4>"Favour"</h4>
+            <p class="spotlight-achievement">Law Graduate - First Class Honors</p>
+            <p class="spotlight-description">A scholarship recipient who graduated with a first class in law and also a first class in the Nigerian law school.</p>
+          </div>
+        </div>
+        
+        <div class="spotlight-card">
+          <div class="spotlight-image">
+            <div class="image-placeholder">
+              <span class="placeholder-icon">⚖️</span>
+            </div>
+          </div>
+          <div class="spotlight-content">
+            <h4>"Liberater"</h4>
+            <p class="spotlight-achievement">Law Graduate - Community Leader</p>
+            <p class="spotlight-description">Another CloNG project scholarship recipient had her tuition paid for from her first year to fourth year while studying law. Now she is a graduate of Law and serves her community.</p>
+          </div>
+        </div>
       </div>
+      
+      <p class="impact-statement">
+        Each story is a powerful testament to our impact: alumni become mentors, donors, and community leaders themselves, multiplying the cycle of empowerment.
+      </p>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="testimonials-section">
+      <h3 class="testimonials-title">Testimonials</h3>
+      <p class="testimonials-intro">
+        We collect inspiring quotes from participants, parents, and mentors that reflect CloNG's life-changing influence.
+      </p>
+      
+      <div class="testimonials-placeholder">
+        <div class="placeholder-content">
+          <div class="placeholder-icon">💬</div>
+          <p>Testimonials coming soon...</p>
+          <p class="placeholder-note">We're currently collecting inspiring quotes from our community.</p>
+        </div>
+      </div>
+      
+      <p class="mission-statement">
+        These voices underscore our mission: real young people are encouraged spiritually and academically, ready to "run with" their God-given assignments (a message emphasized at our AGC2025 conference).
+      </p>
     </div>
 
     <!-- Stories Grid -->
@@ -74,30 +128,7 @@
   </div>
 </section>
 
-<!-- Impact Statistics -->
-<section class="impact-stats">
-  <div class="container">
-    <h2 class="section-title">Our Impact</h2>
-    <div class="stats-grid">
-      <div class="stat-item">
-        <span class="stat-number">100+</span>
-        <span class="stat-label">Lives Transformed</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">50+</span>
-        <span class="stat-label">Scholarships Awarded</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">25+</span>
-        <span class="stat-label">Success Stories</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">10+</span>
-        <span class="stat-label">Years of Impact</span>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- Call to Action -->
 <section class="stories-cta">

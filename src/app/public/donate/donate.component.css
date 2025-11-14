@@ -240,6 +240,130 @@
   line-height: 1.5;
 }
 
+/* Partnership Section */
+.partnership-section {
+  padding: var(--spacing-2xl) 0;
+  background: var(--off-white);
+}
+
+.partnership-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.partnership-content .section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--primary-blue);
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-description {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.partnership-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.partnership-card {
+  background: var(--white);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  border-left: 5px solid var(--gold);
+}
+
+.partnership-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.partnership-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--primary-blue);
+}
+
+.partnership-card h4 {
+  font-size: 1.4rem;
+  color: var(--primary-blue);
+  margin-bottom: var(--spacing-md);
+  font-weight: 700;
+}
+
+.partnership-card p {
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.partnership-impact {
+  background: var(--white);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.impact-statement {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-lg);
+  font-style: italic;
+}
+
+.partnership-conclusion {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-xl);
+}
+
+.partnership-cta {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+.btn {
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--dark-blue);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+}
+
+.btn-outline:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
 @media (max-width: 768px) {
   .hero-title {
     font-size: 2.5rem;
@@ -269,5 +393,14 @@
 
   .impact-info {
     position: static;
+  }
+  
+  .partnership-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .partnership-cta {
+    flex-direction: column;
+    align-items: center;
   }
 }

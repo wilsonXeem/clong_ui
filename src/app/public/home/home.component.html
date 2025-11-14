@@ -3,10 +3,9 @@
   <div class="container">
     <div class="header-content">
       <div class="header-text">
-        <h1>Raising Godly Leaders in Academia and Career</h1>
+        <h1>Empowering Future Leaders Through Faith-driven Mentorship, Graduate School Preparation, and Leadership Development</h1>
         <p class="page-subtitle">
-          Empowering the next generation through scholarships, mentorship, and
-          capacity building programs that transform lives and communities.
+          CloNG Project Intl is a faith-based nonprofit bridging opportunity gaps for underserved youth. Our approach combines spiritual guidance with academic and career support.
         </p>
         <div class="header-actions">
           <a class="btn btn-primary" routerLink="/events">View Events</a>
@@ -20,15 +19,31 @@
   </div>
 </section>
 
+<!-- About Us -->
+<section class="about-overview">
+  <div class="container">
+    <div class="about-content">
+      <h2>Who We Are</h2>
+      <p>
+        From our Chicago base, we mentor students one-on-one and in cohorts, preparing them for college and graduate school and equipping them to thrive as change-makers and apostles in the marketplace.
+      </p>
+      <p>
+        We are committed to bridging opportunity gaps by providing graduate school preparation, academic mentorship, leadership development, and career guidance for youth from diverse economic backgrounds all over the world. Our goal is that every young person we encounter will be spiritually grounded and academically empowered.
+      </p>
+      <p>
+        We are passionately vested in restoring and equipping the next generation of leaders, empowering them to shine with God's light and represent Him with excellence in their respective callings.
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- Mission Statement -->
 <section class="mission">
   <div class="container">
     <div class="mission-content">
       <h2>Our Mission</h2>
       <p>
-        To raise Godly leaders who will excel in academia and make significant
-        impact in their chosen careers, transforming society through Christian
-        values and excellence.
+        To restore, transform, and preserve the next generation of leaders that are carriers of LIGHT and excellently represent God globally in the academia and marketplace.
       </p>
     </div>
   </div>
@@ -65,22 +80,22 @@
   </div>
 </section>
 
-<!-- Featured Success Story -->
-<section class="featured-story" *ngIf="featuredStory">
+<!-- Watch & Be Inspired -->
+<section class="featured-story">
   <div class="container">
-    <h2 class="section-title">Featured Success Story</h2>
+    <h2 class="section-title">Watch & Be Inspired</h2>
     <div class="story-card">
       <div class="story-image">
-        <img *ngIf="featuredStory.imageUrl" [src]="featuredStory.imageUrl" [alt]="featuredStory.title">
-        <div *ngIf="!featuredStory.imageUrl" class="image-placeholder story-placeholder">
-          {{ featuredStory.title }}
+        <div class="video-placeholder">
+          <div class="play-button">▶</div>
+          <p>Student Story Video</p>
         </div>
       </div>
       <div class="story-content">
-        <h3>{{ featuredStory.title }}</h3>
+        <h3>Student Testimonial</h3>
         <p class="story-title">Success Story</p>
-        <p class="story-excerpt">{{ featuredStory.content | slice:0:200 }}...</p>
-        <a class="btn btn-gold" routerLink="/stories">Read More Stories</a>
+        <p class="story-excerpt">Watch how CloNG Project has transformed lives through faith-driven mentorship and academic support.</p>
+        <a class="btn btn-gold" href="#" target="_blank">Watch Video</a>
       </div>
     </div>
   </div>
@@ -113,12 +128,12 @@
     <h2 class="section-title">Our Impact</h2>
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-number">150+</div>
-        <div class="stat-label">Scholarships Awarded</div>
-      </div>
-      <div class="stat-card">
         <div class="stat-number">500+</div>
         <div class="stat-label">Lives Transformed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">200+</div>
+        <div class="stat-label">Students Mentored Last Year</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">25+</div>

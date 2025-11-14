@@ -183,7 +183,7 @@
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-xl);
 }
 
@@ -326,7 +326,43 @@
 
 .faith-item p {
   line-height: 1.6;
-  opacity: 0.9;
+  opacity: 1;
+  color: var(--white);
+}
+
+.faith-intro,
+.faith-description {
+  color: var(--white);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-lg);
+  opacity: 1;
+}
+
+/* Partnership Overview Section */
+.partnership-overview {
+  padding: var(--spacing-2xl) 0;
+  background: var(--white);
+}
+
+.partnership-overview .section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary-blue);
+  margin-bottom: var(--spacing-lg);
+}
+
+.partnership-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.partnership-content p {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-lg);
 }
 
 /* About CTA Section */

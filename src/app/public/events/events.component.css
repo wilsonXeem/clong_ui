@@ -445,6 +445,107 @@
   font-size: 1rem;
 }
 
+/* Archive Events Styling */
+.archive-events {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+  margin-top: var(--spacing-xl);
+}
+
+.archive-event {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-left: 5px solid var(--gold);
+}
+
+.archive-event:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.archive-event {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 0;
+}
+
+.event-year {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.event-details {
+  padding: var(--spacing-xl);
+}
+
+.event-details h3 {
+  font-size: 1.5rem;
+  color: var(--primary-blue);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 700;
+}
+
+.event-date {
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  font-size: 1rem;
+}
+
+.event-theme {
+  color: var(--text-dark);
+  margin-bottom: var(--spacing-md);
+  font-size: 1rem;
+}
+
+.event-theme strong {
+  color: var(--primary-blue);
+}
+
+.event-description {
+  color: var(--text-light);
+  line-height: 1.7;
+  font-size: 1rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Event Gallery Styling */
+.event-gallery {
+  margin-top: var(--spacing-lg);
+}
+
+.gallery-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.gallery-images img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.gallery-images img:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
 /* Past Events Highlights */
 .past-events {
   background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
@@ -622,6 +723,22 @@
     flex-direction: column;
     gap: var(--spacing-sm);
   }
+  
+  .archive-event {
+    grid-template-columns: 80px 1fr;
+  }
+  
+  .event-year {
+    font-size: 1.2rem;
+  }
+  
+  .gallery-images {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .gallery-images img {
+    height: 120px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -635,5 +752,24 @@
   
   .highlights-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .archive-event {
+    grid-template-columns: 1fr;
+  }
+  
+  .event-year {
+    writing-mode: horizontal-tb;
+    text-orientation: initial;
+    padding: var(--spacing-md);
+    text-align: center;
+  }
+  
+  .gallery-images {
+    grid-template-columns: 1fr;
+  }
+  
+  .gallery-images img {
+    height: 200px;
   }
 }

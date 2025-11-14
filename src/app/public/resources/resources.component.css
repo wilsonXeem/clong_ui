@@ -173,6 +173,96 @@
   font-weight: 600;
 }
 
+/* Resources Overview */
+.resources-overview {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  padding: var(--spacing-xl) 0;
+  background: var(--off-white);
+  border-radius: var(--radius-lg);
+}
+
+.resources-overview .section-title {
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-description {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Resource Highlights */
+.resource-highlights {
+  margin-bottom: var(--spacing-2xl);
+  padding: var(--spacing-2xl) 0;
+}
+
+.highlights-title {
+  font-size: 2rem;
+  color: var(--primary-blue);
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  font-weight: 700;
+}
+
+.highlight-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--spacing-lg);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-left: 5px solid var(--gold);
+}
+
+.highlight-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.highlight-card {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 0;
+}
+
+.highlight-icon {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.highlight-content {
+  padding: var(--spacing-xl);
+}
+
+.highlight-content h4 {
+  font-size: 1.4rem;
+  color: var(--primary-blue);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 700;
+}
+
+.highlight-subtitle {
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.highlight-description {
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0;
+}
+
 /* Resource Categories */
 .resource-categories {
   background: var(--off-white);

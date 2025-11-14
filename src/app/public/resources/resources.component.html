@@ -31,13 +31,52 @@
 <!-- Resources Content -->
 <section class="resources-content" *ngIf="!loading && !error">
   <div class="container">
-    <!-- No Resources State -->
-    <div class="no-resources" *ngIf="resources.length === 0">
-      <div class="no-resources-content">
-        <div class="no-resources-icon">📚</div>
-        <h3>No Resources Available</h3>
-        <p>We're building our resource library. Check back soon for helpful guides, templates, and materials!</p>
-        <a class="btn btn-primary" routerLink="/contact">Request Resources</a>
+    <!-- Graduate School Resources Overview -->
+    <div class="resources-overview">
+      <h2 class="section-title">Graduate School Application Resources</h2>
+      <p class="section-description">
+        CloNG Project Intl curates practical guides for graduate school applicants, drawing on expertise from our network. These materials are freely available on our website under the "Resources" section. They aim to empower students at each step of the graduate application journey, reflecting our mission to equip youth with every tool for success.
+      </p>
+    </div>
+
+    <!-- Resource Highlights -->
+    <div class="resource-highlights">
+      <h3 class="highlights-title">Recent Resource Highlights</h3>
+      
+      <div class="highlight-card">
+        <div class="highlight-icon">💰</div>
+        <div class="highlight-content">
+          <h4>Funding Your Studies</h4>
+          <p class="highlight-subtitle">AGC2024 Panel: "Available Funding Options for International Students"</p>
+          <p class="highlight-description">This guide lists fellowships, scholarships, and research grants for graduate study in the U.S., with links to award sites.</p>
+        </div>
+      </div>
+      
+      <div class="highlight-card">
+        <div class="highlight-icon">✍️</div>
+        <div class="highlight-content">
+          <h4>Statement of Purpose & Essays</h4>
+          <p class="highlight-subtitle">Insights from Angeliki Andrianopoulou: "Writing a Winning SOP (Personal Statement)"</p>
+          <p class="highlight-description">We provide tips on articulating purpose, telling your story, and aligning personal values with program goals.</p>
+        </div>
+      </div>
+      
+      <div class="highlight-card">
+        <div class="highlight-icon">📄</div>
+        <div class="highlight-content">
+          <h4>Curriculum Vitae (CV) & Recommendations</h4>
+          <p class="highlight-subtitle">Dr. Ifeanyi Eke's seminar: "Crafting a Well-Structured CV and Requesting Recommendation Letters"</p>
+          <p class="highlight-description">Resources cover formatting a CV for academia versus industry, requesting strong letters, and showcasing leadership and research.</p>
+        </div>
+      </div>
+      
+      <div class="highlight-card">
+        <div class="highlight-icon">🎥</div>
+        <div class="highlight-content">
+          <h4>Webinar Archives</h4>
+          <p class="highlight-subtitle">Recorded panels and Q&A sessions</p>
+          <p class="highlight-description">We record our panels and Q&A sessions (like the "Securing Funded Grad Programs" panel) so students can revisit advice.</p>
+        </div>
       </div>
     </div>
 

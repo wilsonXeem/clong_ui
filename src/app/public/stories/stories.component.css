@@ -300,6 +300,177 @@
   color: var(--white);
 }
 
+/* Stories Overview */
+.stories-overview {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  padding: var(--spacing-xl) 0;
+  background: var(--off-white);
+  border-radius: var(--radius-lg);
+}
+
+.stories-overview .section-title {
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-description {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Alumni Spotlights */
+.alumni-spotlights {
+  margin-bottom: var(--spacing-2xl);
+  padding: var(--spacing-2xl) 0;
+}
+
+.spotlight-title {
+  font-size: 2rem;
+  color: var(--primary-blue);
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  font-weight: 700;
+}
+
+.spotlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.spotlight-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-left: 5px solid var(--gold);
+}
+
+.spotlight-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.spotlight-card {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0;
+}
+
+.spotlight-image {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spotlight-image .placeholder-icon {
+  font-size: 3rem;
+  color: var(--white);
+}
+
+.spotlight-content {
+  padding: var(--spacing-xl);
+}
+
+.spotlight-content h4 {
+  font-size: 1.4rem;
+  color: var(--primary-blue);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 700;
+}
+
+.spotlight-achievement {
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  font-size: 1rem;
+}
+
+.spotlight-description {
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.impact-statement {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+  color: var(--white);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-top: var(--spacing-xl);
+  font-style: italic;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  background: var(--light-gray);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.testimonials-title {
+  font-size: 2rem;
+  color: var(--primary-blue);
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  font-weight: 700;
+}
+
+.testimonials-intro {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: var(--spacing-xl);
+  line-height: 1.6;
+}
+
+.testimonials-placeholder {
+  background: var(--white);
+  border: 2px dashed var(--light-gray);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.placeholder-content .placeholder-icon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-lg);
+  color: var(--gold);
+}
+
+.placeholder-content p {
+  color: var(--text-light);
+  margin-bottom: var(--spacing-sm);
+}
+
+.placeholder-note {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+.mission-statement {
+  background: var(--primary-blue);
+  color: var(--white);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .stories-title {
@@ -313,6 +484,18 @@
   .stories-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
+  }
+  
+  .spotlights-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .spotlight-card {
+    grid-template-columns: 1fr;
+  }
+  
+  .spotlight-image {
+    height: 100px;
   }
   
   .stats-grid {

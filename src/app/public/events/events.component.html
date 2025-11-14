@@ -41,7 +41,7 @@
       <button class="tab-button" 
               [class.active]="activeTab === 'past'"
               (click)="switchTab('past')">
-        Past Events Archive ({{ pastEvents.length }})
+        Past Events Archive (8)
       </button>
     </div>
 
@@ -140,11 +140,155 @@
         <p class="section-description">Explore our previous events, view photos, recordings, and testimonials from past attendees.</p>
       </div>
 
-      <div class="no-events" *ngIf="pastEvents.length === 0">
-        <div class="no-events-content">
-          <div class="no-events-icon">📚</div>
-          <h3>No Past Events</h3>
-          <p>Our event archive will be populated as we host more events. Stay tuned!</p>
+      <div class="archive-events">
+        <div class="archive-event">
+          <div class="event-year">2025</div>
+          <div class="event-details">
+            <h3>Ambidextrous Generation Conference 2025</h3>
+            <p class="event-date">September 25-27, 2025</p>
+            <p class="event-theme"><strong>Theme:</strong> Royal Priesthood: The Rise of Priestly Kings and Kingly Priests</p>
+            <p class="event-description">This online conference inspired participants to embrace their dual callings of spiritual devotion and leadership excellence. It ignited renewed purpose, birthed mentorship networks, and empowered attendees to lead with divine authority in their careers, ministries, and communities. The conference marked a significant wave of transformation, unity, and kingdom-driven impact.</p>
+          </div>
+        </div>
+        
+        <div class="archive-event">
+          <div class="event-year">2024</div>
+          <div class="event-details">
+            <h3>Ambidextrous Generation Conference 2024 (#AGC2024)</h3>
+            <p class="event-date">September 5-6, 2024</p>
+            <p class="event-theme"><strong>Theme:</strong> The Pursuit of Purpose</p>
+            <p class="event-special"><strong>Special Event:</strong> First Chicago Prophetic Prayer Walk</p>
+            <p class="event-description">CloNG's flagship annual event. This hybrid conference (live in Chicago and online) convened students and mentors to "pursue purpose" in both God's kingdom and career fields. Highlights included worship services, motivational keynotes, and expert panels. Notably, a session on "Securing Funded Graduate Programs in the United States" demystified scholarship and fellowship opportunities for attendees. The conference featured industry and academic speakers, networking fairs, and prayer gatherings, reinforcing CloNG's vision that "ministry is impact" beyond the pulpit.</p>
+            <div class="event-gallery">
+              <div class="gallery-images">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763108391/3e4e3b52-62b6-4b98-b281-182a2f9aa97d_ybnu3i.jpg" alt="AGC 2024 Conference Flier 1">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763108391/7d41800c-d490-46ac-8bc8-78b74dc238e6_bievd8.jpg" alt="AGC 2024 Conference Flier 2">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763108399/63f8d549-a52b-4449-8fc6-2fcee1f50b1a_b2nhmm.jpg" alt="AGC 2024 Chicago Prayer Walk 1">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763108400/b4a3f51e-b4a8-4fa9-9e4c-c27a235f142b_ee6mbv.jpg" alt="AGC 2024 Chicago Prayer Walk 2">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763108402/d7ef4ac7-3b2c-429e-85db-be6143147d19_z0xqbf.jpg" alt="AGC 2024 Chicago Prayer Walk 3">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="archive-event">
+          <div class="event-year">2023</div>
+          <div class="event-details">
+            <h3>Ambidextrous Generation Conference 2023 (#AGC2023)</h3>
+            <p class="event-theme"><strong>Theme:</strong> Ambidextrous Generation</p>
+            <p class="event-format"><strong>Format:</strong> Virtual Conference</p>
+            <p class="event-description">Our second edition expanded to include workshops on leadership and apostolic ministry. Delegates learned about real-life examples of faith-led enterprise and community transformation. Pharm. Peculiar Onyekere (CloNG founder) taught that a Christian's calling extends to every vocation. Alumni who had previously attended shared testimonies of CloNG project impact in their lives.</p>
+            <div class="event-gallery">
+              <div class="gallery-images">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763107332/b231f918-65d4-4970-b329-504e1b7ef032_dnd9b1.jpg" alt="AGC 2023 Conference Flier">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763107333/IMG_0031_akbdji.jpg" alt="AGC 2023 Virtual Conference 1">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763107333/IMG_0028_ul7tvo.jpg" alt="AGC 2023 Virtual Conference 2">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763107336/IMG_0032_k8wur7.jpg" alt="AGC 2023 Virtual Conference 3">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763107342/IMG_0033_tmnnp9.jpg" alt="AGC 2023 Virtual Conference 4">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763107342/IMG_0037_xwuozj.jpg" alt="AGC 2023 Virtual Conference 5">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763107343/IMG_0038_wyfmpl.jpg" alt="AGC 2023 Virtual Conference 6">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="archive-event">
+          <div class="event-year">2022</div>
+          <div class="event-details">
+            <h3>First Conference of CloNG Project International - "Sons of Light Conference"</h3>
+            <p class="event-date">February 2022</p>
+            <p class="event-theme"><strong>Note:</strong> Now renamed as "Ambidextrous Generation Conference"</p>
+            <p class="event-description">The inaugural conference of CloNG Project International, originally tagged "Sons of Light Conference." This historic first conference laid the foundation for what would become the annual Ambidextrous Generation Conference series. The event brought together young leaders, mentors, and visionaries to launch CloNG's mission of raising Godly leaders in academia and career.</p>
+            <div class="event-gallery">
+              <div class="gallery-images">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106752/WhatsApp_Image_2025-10-21_at_02.57.31_5_icylzg.jpg" alt="Sons of Light Conference 2022 - 1">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106751/WhatsApp_Image_2025-10-21_at_02.57.30_pwshpi.jpg" alt="Sons of Light Conference 2022 - 2">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106750/WhatsApp_Image_2025-10-21_at_02.57.30_12_x2d55o.jpg" alt="Sons of Light Conference 2022 - 3">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106751/WhatsApp_Image_2025-10-21_at_02.57.31_2_e5tfah.jpg" alt="Sons of Light Conference 2022 - 4">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106751/WhatsApp_Image_2025-10-21_at_02.57.31_1_bymtsb.jpg" alt="Sons of Light Conference 2022 - 5">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106751/WhatsApp_Image_2025-10-21_at_02.57.31_3_mauhcd.jpg" alt="Sons of Light Conference 2022 - 6">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106752/WhatsApp_Image_2025-10-21_at_02.57.31_seovdz.jpg" alt="Sons of Light Conference 2022 - 7">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="archive-event">
+          <div class="event-year">2020</div>
+          <div class="event-details">
+            <h3>Prophetic Prayer Walk in the University Campus</h3>
+            <p class="event-date">2020</p>
+            <p class="event-theme"><strong>Location:</strong> University Campus</p>
+            <p class="event-description">The 2020 edition of the Prophetic Prayer Walk brought together students and believers for a powerful spiritual mobilization across the university campus. This faith-driven initiative combined prayer, worship, and prophetic declarations, creating a spiritual atmosphere for transformation and revival within the academic community.</p>
+            <div class="event-gallery">
+              <div class="gallery-images">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106089/WhatsApp_Image_2025-10-21_at_02.55.14_2_yp57kx.jpg" alt="Prophetic Prayer Walk 2020 - 1">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106089/WhatsApp_Image_2025-10-21_at_02.55.14_6_xletyp.jpg" alt="Prophetic Prayer Walk 2020 - 2">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106090/WhatsApp_Image_2025-10-21_at_02.55.14_3_xl7a7v.jpg" alt="Prophetic Prayer Walk 2020 - 3">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106090/WhatsApp_Image_2025-10-21_at_02.55.14_4_jjvrif.jpg" alt="Prophetic Prayer Walk 2020 - 4">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106090/WhatsApp_Image_2025-10-21_at_02.55.14_5_a9tzyq.jpg" alt="Prophetic Prayer Walk 2020 - 5">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763106090/WhatsApp_Image_2025-10-21_at_02.55.14_nfbtar.jpg" alt="Prophetic Prayer Walk 2020 - 6">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="archive-event">
+          <div class="event-year">2019</div>
+          <div class="event-details">
+            <h3>Community Outreach to The Place of Hope Orphanage Nsukka</h3>
+            <p class="event-date">January 2019</p>
+            <p class="event-theme"><strong>Occasion:</strong> President's Birthday Celebration</p>
+            <p class="event-description">A heartwarming community outreach to The Place of Hope Orphanage in Nsukka, organized in celebration of the President's birthday. This event demonstrated CloNG Project's commitment to serving the most vulnerable in society, bringing joy, support, and care to orphaned children while embodying the organization's values of service and compassion.</p>
+            <div class="event-gallery">
+              <div class="gallery-images">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104444/WhatsApp_Image_2025-10-21_at_02.53.16_1_ajth5m.jpg" alt="Place of Hope Orphanage Outreach 1">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104444/WhatsApp_Image_2025-10-21_at_02.53.16_2_fxtoll.jpg" alt="Place of Hope Orphanage Outreach 2">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104444/WhatsApp_Image_2025-10-21_at_02.53.16_bsonts.jpg" alt="Place of Hope Orphanage Outreach 3">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104445/WhatsApp_Image_2025-10-21_at_02.53.16_5_oosivy.jpg" alt="Place of Hope Orphanage Outreach 4">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104444/WhatsApp_Image_2025-10-21_at_02.53.16_4_k1xhji.jpg" alt="Place of Hope Orphanage Outreach 5">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104447/WhatsApp_Image_2025-10-21_at_02.53.16_6_o6xizu.jpg" alt="Place of Hope Orphanage Outreach 6">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="archive-event">
+          <div class="event-year">2018</div>
+          <div class="event-details">
+            <h3>Official Inauguration Ceremony of Clothing The Next Generation Project Intl</h3>
+            <p class="event-date">January 2018</p>
+            <p class="event-theme"><strong>Venue:</strong> Faculty of Pharmaceutical Sciences, University of Nigeria Nsukka</p>
+            <p class="event-description">The historic official inauguration ceremony marking the formal launch of CloNG Project Intl. This milestone event at the University of Nigeria Nsukka established the foundation for the organization's mission to raise Godly leaders in academia and career. The ceremony brought together faculty, students, and community leaders to witness the birth of this transformative initiative.</p>
+            <div class="event-gallery">
+              <div class="gallery-images">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104038/WhatsApp_Image_2025-10-21_at_02.50.34_xau56r.jpg" alt="Official Inauguration Ceremony 1">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104038/WhatsApp_Image_2025-10-21_at_02.50.34_4_ke4akg.jpg" alt="Official Inauguration Ceremony 2">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104038/WhatsApp_Image_2025-10-21_at_02.50.34_1_cn53pl.jpg" alt="Official Inauguration Ceremony 3">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763104038/WhatsApp_Image_2025-10-21_at_02.50.33_1_rdmuxq.jpg" alt="Official Inauguration Ceremony 4">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="archive-event">
+          <div class="event-year">2017</div>
+          <div class="event-details">
+            <h3>Community Outreach / Ministration</h3>
+            <p class="event-date">2017</p>
+            <p class="event-theme"><strong>Location:</strong> NYSC Nsukka, Enugu State Nigeria</p>
+            <p class="event-description">An early community outreach and ministration event during the NYSC service year in Nsukka, Enugu State. This grassroots initiative demonstrated CloNG Project's commitment to reaching young people in their communities and laying the foundation for future ministry and mentorship programs.</p>
+            <div class="event-gallery">
+              <div class="gallery-images">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763103139/WhatsApp_Image_2025-10-21_at_02.45.43_e1dqxu.jpg" alt="Community Outreach NYSC Nsukka 1">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763103139/WhatsApp_Image_2025-10-21_at_02.45.53_2_fywrft.jpg" alt="Community Outreach NYSC Nsukka 2">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763103139/WhatsApp_Image_2025-10-21_at_02.45.53_1_at8p6v.jpg" alt="Community Outreach NYSC Nsukka 3">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763103139/WhatsApp_Image_2025-10-21_at_02.45.07_pykzjg.jpg" alt="Community Outreach NYSC Nsukka 4">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763103139/WhatsApp_Image_2025-10-21_at_02.45.53_yscf4r.jpg" alt="Community Outreach NYSC Nsukka 5">
+                <img src="https://res.cloudinary.com/duga6iam1/image/upload/v1763103139/WhatsApp_Image_2025-10-21_at_02.45.28_mhn5ef.jpg" alt="Community Outreach NYSC Nsukka 6">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -256,30 +400,7 @@
   </div>
 </section>
 
-<!-- Past Events Highlights -->
-<section class="past-events">
-  <div class="container">
-    <h2 class="section-title">Past Event Highlights</h2>
-    <div class="highlights-grid">
-      <div class="highlight-item">
-        <span class="highlight-number">2024</span>
-        <span class="highlight-text">Ambidextrous Generation Conference</span>
-      </div>
-      <div class="highlight-item">
-        <span class="highlight-number">500+</span>
-        <span class="highlight-text">Total Attendees</span>
-      </div>
-      <div class="highlight-item">
-        <span class="highlight-number">25+</span>
-        <span class="highlight-text">Events Hosted</span>
-      </div>
-      <div class="highlight-item">
-        <span class="highlight-number">15+</span>
-        <span class="highlight-text">Expert Speakers</span>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- Call to Action -->
 <section class="events-cta">
